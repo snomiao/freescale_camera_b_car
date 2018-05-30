@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.20.1.14183/W32 for ARM                30/May/2018  15:04:49
+# IAR ELF Linker V8.20.1.14183/W32 for ARM                31/May/2018  00:30:28
 # Copyright 2007-2017 IAR Systems AB.
 #
 #    Output file  =  
@@ -8,7 +8,7 @@
 #    Map file     =  
 #        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\List\fire_gpio_demo.map
 #    Command line =  
-#        -f C:\Users\snomiao\AppData\Local\Temp\EW8D5A.tmp
+#        -f C:\Users\snomiao\AppData\Local\Temp\EW6B69.tmp
 #        (C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\alloc.o
 #        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\arm_cm4.o
 #        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\ASCII.o
@@ -110,7 +110,7 @@ initialize manually with packing = copy, complex ranges { section .textrw };
   .noinit              ro code  0x00000410    0x3c  crt0.o [1]
                               - 0x0000044c    0x3c
 
-"P1":                                       0xa710
+"P1":                                       0xa780
   .text                ro code  0x0000044c  0x2fa8  BL144002.o [1]
   .text                ro code  0x000033f4   0x124  gpio.o [1]
   .text                ro code  0x00003518    0xf0  lptmr.o [1]
@@ -160,149 +160,148 @@ initialize manually with packing = copy, complex ranges { section .textrw };
   .text                ro code  0x00009608    0x20  main.o [1]
   Veneer               ro code  0x00009628     0x8  - Linker created -
   .text                ro code  0x00009630   0x2f0  mcg.o [1]
-  .text                ro code  0x00009920   0x178  init.o [1]
-  .text                ro code  0x00009a98    0x70  PIT.o [1]
-  .text                ro code  0x00009b08    0x22  FltToU32.o [4]
-  .text                ro code  0x00009b2c    0xb0  STEERING_GEAR.o [1]
-  .text                ro code  0x00009bdc    0x1a  MOTOR.o [1]
-  .rodata              const    0x00009bf8   0x234  isr.o [1]
-  .data_init                    0x00009e2c   0x158  <Block>
-    Initializer bytes  const    0x00009e2c   0x158  <for .data-1>
-  .rodata              const    0x00009f84    0x80  MENU.o [1]
-  .rodata              const    0x0000a004    0x74  MENU.o [1]
-  .rodata              const    0x0000a078    0x54  lptmr.o [1]
-  .rodata              const    0x0000a0cc    0x50  dma.o [1]
-  .rodata              const    0x0000a11c    0x50  FTM.o [1]
-  .rodata              const    0x0000a16c    0x50  gpio.o [1]
-  .rodata              const    0x0000a1bc    0x4c  assert.o [1]
-  CodeRelocate                  0x0000a208    0x4c  <Block>
-    Initializer bytes  const    0x0000a208    0x4c  <for CodeRelocateRam-1>
-  .rodata              const    0x0000a254    0x48  start.o [1]
-  .rodata              const    0x0000a29c    0x40  start.o [1]
-  .text                ro code  0x0000a2dc    0x40  zero_init3.o [5]
-  .rodata              const    0x0000a31c    0x3c  arm_cm4.o [1]
-  .rodata              const    0x0000a358    0x38  arm_cm4.o [1]
-  .rodata              const    0x0000a390    0x30  vectors.o [1]
-  .rodata              const    0x0000a3c0    0x2c  start.o [1]
-  .rodata              const    0x0000a3ec    0x28  start.o [1]
-  .rodata              const    0x0000a414    0x28  start.o [1]
-  .text                ro code  0x0000a43c    0x28  data_init.o [5]
-  .rodata              const    0x0000a464    0x24  OV7725.o [1]
-  .rodata              const    0x0000a488    0x24  OV7725.o [1]
-  .text                ro code  0x0000a4ac    0x24  vectors.o [1]
-  .iar.init_table      const    0x0000a4d0    0x10  - Linker created -
-  .rodata              const    0x0000a4e0    0x20  CAMERA_FUNC.o [1]
-  .rodata              const    0x0000a500    0x20  OV7725.o [1]
-  .rodata              const    0x0000a520    0x20  start.o [1]
-  .rodata              const    0x0000a540    0x20  start.o [1]
-  .rodata              const    0x0000a560    0x20  start.o [1]
-  .rodata              const    0x0000a580    0x20  start.o [1]
-  .rodata              const    0x0000a5a0    0x20  start.o [1]
-  .text                ro code  0x0000a5c0    0x1e  cmain.o [5]
-  .text                ro code  0x0000a5de     0x4  low_level_init.o [3]
-  .text                ro code  0x0000a5e2     0x4  exit.o [3]
-  .text                ro code  0x0000a5e8     0xa  cexit.o [5]
-  .text                ro code  0x0000a5f4    0x14  exit.o [6]
-  .rodata              const    0x0000a608    0x1c  start.o [1]
-  .rodata              const    0x0000a624    0x1c  start.o [1]
-  .rodata              const    0x0000a640    0x1c  start.o [1]
-  .rodata              const    0x0000a65c    0x18  MENU.o [1]
-  .rodata              const    0x0000a674    0x18  OV7725.o [1]
-  .rodata              const    0x0000a68c    0x18  OV7725.o [1]
-  .rodata              const    0x0000a6a4    0x18  start.o [1]
-  .rodata              const    0x0000a6bc    0x18  start.o [1]
-  .rodata              const    0x0000a6d4    0x18  start.o [1]
-  .rodata              const    0x0000a6ec    0x18  start.o [1]
-  .rodata              const    0x0000a704    0x18  start.o [1]
-  .rodata              const    0x0000a71c    0x18  start.o [1]
-  .rodata              const    0x0000a734    0x18  start.o [1]
-  .rodata              const    0x0000a74c    0x18  start.o [1]
-  .rodata              const    0x0000a764    0x14  isr.o [1]
-  .rodata              const    0x0000a778    0x14  isr.o [1]
-  .rodata              const    0x0000a78c    0x14  isr.o [1]
-  .rodata              const    0x0000a7a0    0x14  OV7725.o [1]
-  .rodata              const    0x0000a7b4    0x14  start.o [1]
-  .rodata              const    0x0000a7c8    0x14  start.o [1]
-  .rodata              const    0x0000a7dc    0x14  start.o [1]
-  .rodata              const    0x0000a7f0    0x14  start.o [1]
-  .rodata              const    0x0000a804    0x14  start.o [1]
-  .rodata              const    0x0000a818    0x14  start.o [1]
-  .rodata              const    0x0000a82c    0x14  start.o [1]
-  .rodata              const    0x0000a840    0x14  start.o [1]
-  .rodata              const    0x0000a854    0x10  init.o [1]
-  .rodata              const    0x0000a864    0x10  isr.o [1]
-  .rodata              const    0x0000a874    0x10  isr.o [1]
-  .rodata              const    0x0000a884    0x10  isr.o [1]
-  .rodata              const    0x0000a894    0x10  isr.o [1]
-  .rodata              const    0x0000a8a4    0x10  isr.o [1]
-  .rodata              const    0x0000a8b4    0x10  isr.o [1]
-  .rodata              const    0x0000a8c4    0x10  isr.o [1]
-  .rodata              const    0x0000a8d4    0x10  MENU.o [1]
-  .rodata              const    0x0000a8e4    0x10  MENU.o [1]
-  .rodata              const    0x0000a8f4    0x10  MENU.o [1]
-  .rodata              const    0x0000a904    0x10  start.o [1]
-  .rodata              const    0x0000a914    0x10  start.o [1]
-  .rodata              const    0x0000a924    0x10  start.o [1]
-  .rodata              const    0x0000a934    0x10  start.o [1]
-  .rodata              const    0x0000a944    0x10  start.o [1]
-  .rodata              const    0x0000a954    0x10  start.o [1]
-  .rodata              const    0x0000a964    0x10  start.o [1]
+  .text                ro code  0x00009920   0x17c  init.o [1]
+  .text                ro code  0x00009a9c    0x70  PIT.o [1]
+  .text                ro code  0x00009b0c    0xb0  STEERING_GEAR.o [1]
+  .text                ro code  0x00009bbc    0x1a  MOTOR.o [1]
+  .rodata              const    0x00009bd8   0x234  isr.o [1]
+  .data_init                    0x00009e0c   0x158  <Block>
+    Initializer bytes  const    0x00009e0c   0x158  <for .data-1>
+  .rodata              const    0x00009f64    0x80  MENU.o [1]
+  .rodata              const    0x00009fe4    0x78  lptmr.o [1]
+  .rodata              const    0x0000a05c    0x74  dma.o [1]
+  .rodata              const    0x0000a0d0    0x74  FTM.o [1]
+  .rodata              const    0x0000a144    0x74  gpio.o [1]
+  .rodata              const    0x0000a1b8    0x74  MENU.o [1]
+  .rodata              const    0x0000a22c    0x4c  assert.o [1]
+  CodeRelocate                  0x0000a278    0x4c  <Block>
+    Initializer bytes  const    0x0000a278    0x4c  <for CodeRelocateRam-1>
+  .rodata              const    0x0000a2c4    0x48  start.o [1]
+  .rodata              const    0x0000a30c    0x40  start.o [1]
+  .text                ro code  0x0000a34c    0x40  zero_init3.o [5]
+  .rodata              const    0x0000a38c    0x3c  arm_cm4.o [1]
+  .rodata              const    0x0000a3c8    0x38  arm_cm4.o [1]
+  .rodata              const    0x0000a400    0x30  vectors.o [1]
+  .rodata              const    0x0000a430    0x2c  start.o [1]
+  .rodata              const    0x0000a45c    0x28  start.o [1]
+  .rodata              const    0x0000a484    0x28  start.o [1]
+  .text                ro code  0x0000a4ac    0x28  data_init.o [5]
+  .rodata              const    0x0000a4d4    0x24  OV7725.o [1]
+  .rodata              const    0x0000a4f8    0x24  OV7725.o [1]
+  .text                ro code  0x0000a51c    0x24  vectors.o [1]
+  .iar.init_table      const    0x0000a540    0x10  - Linker created -
+  .rodata              const    0x0000a550    0x20  CAMERA_FUNC.o [1]
+  .rodata              const    0x0000a570    0x20  OV7725.o [1]
+  .rodata              const    0x0000a590    0x20  start.o [1]
+  .rodata              const    0x0000a5b0    0x20  start.o [1]
+  .rodata              const    0x0000a5d0    0x20  start.o [1]
+  .rodata              const    0x0000a5f0    0x20  start.o [1]
+  .rodata              const    0x0000a610    0x20  start.o [1]
+  .text                ro code  0x0000a630    0x1e  cmain.o [5]
+  .text                ro code  0x0000a64e     0x4  low_level_init.o [3]
+  .text                ro code  0x0000a652     0x4  exit.o [3]
+  .text                ro code  0x0000a658     0xa  cexit.o [5]
+  .text                ro code  0x0000a664    0x14  exit.o [6]
+  .rodata              const    0x0000a678    0x1c  start.o [1]
+  .rodata              const    0x0000a694    0x1c  start.o [1]
+  .rodata              const    0x0000a6b0    0x1c  start.o [1]
+  .rodata              const    0x0000a6cc    0x18  MENU.o [1]
+  .rodata              const    0x0000a6e4    0x18  OV7725.o [1]
+  .rodata              const    0x0000a6fc    0x18  OV7725.o [1]
+  .rodata              const    0x0000a714    0x18  start.o [1]
+  .rodata              const    0x0000a72c    0x18  start.o [1]
+  .rodata              const    0x0000a744    0x18  start.o [1]
+  .rodata              const    0x0000a75c    0x18  start.o [1]
+  .rodata              const    0x0000a774    0x18  start.o [1]
+  .rodata              const    0x0000a78c    0x18  start.o [1]
+  .rodata              const    0x0000a7a4    0x18  start.o [1]
+  .rodata              const    0x0000a7bc    0x18  start.o [1]
+  .rodata              const    0x0000a7d4    0x14  isr.o [1]
+  .rodata              const    0x0000a7e8    0x14  isr.o [1]
+  .rodata              const    0x0000a7fc    0x14  isr.o [1]
+  .rodata              const    0x0000a810    0x14  OV7725.o [1]
+  .rodata              const    0x0000a824    0x14  start.o [1]
+  .rodata              const    0x0000a838    0x14  start.o [1]
+  .rodata              const    0x0000a84c    0x14  start.o [1]
+  .rodata              const    0x0000a860    0x14  start.o [1]
+  .rodata              const    0x0000a874    0x14  start.o [1]
+  .rodata              const    0x0000a888    0x14  start.o [1]
+  .rodata              const    0x0000a89c    0x14  start.o [1]
+  .rodata              const    0x0000a8b0    0x14  start.o [1]
+  .rodata              const    0x0000a8c4    0x10  init.o [1]
+  .rodata              const    0x0000a8d4    0x10  isr.o [1]
+  .rodata              const    0x0000a8e4    0x10  isr.o [1]
+  .rodata              const    0x0000a8f4    0x10  isr.o [1]
+  .rodata              const    0x0000a904    0x10  isr.o [1]
+  .rodata              const    0x0000a914    0x10  isr.o [1]
+  .rodata              const    0x0000a924    0x10  isr.o [1]
+  .rodata              const    0x0000a934    0x10  isr.o [1]
+  .rodata              const    0x0000a944    0x10  MENU.o [1]
+  .rodata              const    0x0000a954    0x10  MENU.o [1]
+  .rodata              const    0x0000a964    0x10  MENU.o [1]
   .rodata              const    0x0000a974    0x10  start.o [1]
   .rodata              const    0x0000a984    0x10  start.o [1]
   .rodata              const    0x0000a994    0x10  start.o [1]
   .rodata              const    0x0000a9a4    0x10  start.o [1]
   .rodata              const    0x0000a9b4    0x10  start.o [1]
   .rodata              const    0x0000a9c4    0x10  start.o [1]
-  .text                ro code  0x0000a9d4    0x10  io.o [1]
-  .rodata              const    0x0000a9e4     0xc  MENU.o [1]
-  .rodata              const    0x0000a9f0     0xc  MENU.o [1]
-  .rodata              const    0x0000a9fc     0xc  MENU.o [1]
-  .rodata              const    0x0000aa08     0xc  MENU.o [1]
-  .rodata              const    0x0000aa14     0xc  MENU.o [1]
-  .rodata              const    0x0000aa20     0xc  MENU.o [1]
-  .rodata              const    0x0000aa2c     0xc  start.o [1]
-  .rodata              const    0x0000aa38     0xc  start.o [1]
-  .rodata              const    0x0000aa44     0xc  start.o [1]
-  .rodata              const    0x0000aa50     0xc  start.o [1]
-  .text                ro code  0x0000aa5c     0xc  cstartup_M.o [5]
-  .rodata              const    0x0000aa68     0x8  init.o [1]
-  .rodata              const    0x0000aa70     0x8  init.o [1]
-  .rodata              const    0x0000aa78     0x8  init.o [1]
-  .rodata              const    0x0000aa80     0x8  init.o [1]
-  .rodata              const    0x0000aa88     0x8  MENU.o [1]
-  .rodata              const    0x0000aa90     0x8  MENU.o [1]
-  .rodata              const    0x0000aa98     0x8  MENU.o [1]
-  .rodata              const    0x0000aaa0     0x8  MENU.o [1]
-  .rodata              const    0x0000aaa8     0x8  MENU.o [1]
-  .rodata              const    0x0000aab0     0x8  MENU.o [1]
-  .rodata              const    0x0000aab8     0x8  MENU.o [1]
-  .rodata              const    0x0000aac0     0x8  MENU.o [1]
-  .rodata              const    0x0000aac8     0x8  MENU.o [1]
-  .rodata              const    0x0000aad0     0x8  MENU.o [1]
-  .rodata              const    0x0000aad8     0x8  MENU.o [1]
-  .rodata              const    0x0000aae0     0x8  MENU.o [1]
-  .rodata              const    0x0000aae8     0x8  start.o [1]
-  .rodata              const    0x0000aaf0     0x8  start.o [1]
-  .rodata              const    0x0000aaf8     0x8  start.o [1]
-  .rodata              const    0x0000ab00     0x8  start.o [1]
-  .rodata              const    0x0000ab08     0x8  start.o [1]
-  .rodata              const    0x0000ab10     0x8  start.o [1]
-  .rodata              const    0x0000ab18     0x8  start.o [1]
-  .rodata              const    0x0000ab20     0x8  start.o [1]
-  .rodata              const    0x0000ab28     0x8  STEERING_GEAR.o [1]
-  .rodata              const    0x0000ab30     0x4  LCD.o [1]
-  .rodata              const    0x0000ab34     0x4  LCD.o [1]
-  .rodata              const    0x0000ab38     0x4  LCD.o [1]
-  .rodata              const    0x0000ab3c     0x4  LCD.o [1]
-  .rodata              const    0x0000ab40     0x4  LCD.o [1]
-  .rodata              const    0x0000ab44     0x4  LCD.o [1]
-  .rodata              const    0x0000ab48     0x4  LCD.o [1]
-  .rodata              const    0x0000ab4c     0x4  LCD.o [1]
-  .rodata              const    0x0000ab50     0x4  MENU.o [1]
-  .rodata              const    0x0000ab54     0x4  MENU.o [1]
-  .rodata              const    0x0000ab58     0x4  MENU.o [1]
-  .rodata              const    0x0000ab5c     0x0  zero_init3.o [5]
-                              - 0x0000ab5c  0xa710
+  .rodata              const    0x0000a9d4    0x10  start.o [1]
+  .rodata              const    0x0000a9e4    0x10  start.o [1]
+  .rodata              const    0x0000a9f4    0x10  start.o [1]
+  .rodata              const    0x0000aa04    0x10  start.o [1]
+  .rodata              const    0x0000aa14    0x10  start.o [1]
+  .rodata              const    0x0000aa24    0x10  start.o [1]
+  .rodata              const    0x0000aa34    0x10  start.o [1]
+  .text                ro code  0x0000aa44    0x10  io.o [1]
+  .rodata              const    0x0000aa54     0xc  MENU.o [1]
+  .rodata              const    0x0000aa60     0xc  MENU.o [1]
+  .rodata              const    0x0000aa6c     0xc  MENU.o [1]
+  .rodata              const    0x0000aa78     0xc  MENU.o [1]
+  .rodata              const    0x0000aa84     0xc  MENU.o [1]
+  .rodata              const    0x0000aa90     0xc  MENU.o [1]
+  .rodata              const    0x0000aa9c     0xc  start.o [1]
+  .rodata              const    0x0000aaa8     0xc  start.o [1]
+  .rodata              const    0x0000aab4     0xc  start.o [1]
+  .rodata              const    0x0000aac0     0xc  start.o [1]
+  .text                ro code  0x0000aacc     0xc  cstartup_M.o [5]
+  .rodata              const    0x0000aad8     0x8  init.o [1]
+  .rodata              const    0x0000aae0     0x8  init.o [1]
+  .rodata              const    0x0000aae8     0x8  init.o [1]
+  .rodata              const    0x0000aaf0     0x8  init.o [1]
+  .rodata              const    0x0000aaf8     0x8  MENU.o [1]
+  .rodata              const    0x0000ab00     0x8  MENU.o [1]
+  .rodata              const    0x0000ab08     0x8  MENU.o [1]
+  .rodata              const    0x0000ab10     0x8  MENU.o [1]
+  .rodata              const    0x0000ab18     0x8  MENU.o [1]
+  .rodata              const    0x0000ab20     0x8  MENU.o [1]
+  .rodata              const    0x0000ab28     0x8  MENU.o [1]
+  .rodata              const    0x0000ab30     0x8  MENU.o [1]
+  .rodata              const    0x0000ab38     0x8  MENU.o [1]
+  .rodata              const    0x0000ab40     0x8  MENU.o [1]
+  .rodata              const    0x0000ab48     0x8  MENU.o [1]
+  .rodata              const    0x0000ab50     0x8  MENU.o [1]
+  .rodata              const    0x0000ab58     0x8  start.o [1]
+  .rodata              const    0x0000ab60     0x8  start.o [1]
+  .rodata              const    0x0000ab68     0x8  start.o [1]
+  .rodata              const    0x0000ab70     0x8  start.o [1]
+  .rodata              const    0x0000ab78     0x8  start.o [1]
+  .rodata              const    0x0000ab80     0x8  start.o [1]
+  .rodata              const    0x0000ab88     0x8  start.o [1]
+  .rodata              const    0x0000ab90     0x8  start.o [1]
+  .rodata              const    0x0000ab98     0x8  STEERING_GEAR.o [1]
+  .rodata              const    0x0000aba0     0x4  LCD.o [1]
+  .rodata              const    0x0000aba4     0x4  LCD.o [1]
+  .rodata              const    0x0000aba8     0x4  LCD.o [1]
+  .rodata              const    0x0000abac     0x4  LCD.o [1]
+  .rodata              const    0x0000abb0     0x4  LCD.o [1]
+  .rodata              const    0x0000abb4     0x4  LCD.o [1]
+  .rodata              const    0x0000abb8     0x4  LCD.o [1]
+  .rodata              const    0x0000abbc     0x4  LCD.o [1]
+  .rodata              const    0x0000abc0     0x4  MENU.o [1]
+  .rodata              const    0x0000abc4     0x4  MENU.o [1]
+  .rodata              const    0x0000abc8     0x4  MENU.o [1]
+  .rodata              const    0x0000abcc     0x0  zero_init3.o [5]
+                              - 0x0000abcc  0xa780
 
 "P2", part 1 of 2:                           0x1a4
   .data                         0x1fff0410   0x158  <Block>
@@ -417,7 +416,7 @@ C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspa
     BL144002.o         12 200
     CAMERA_FUNC.o       3 236               152    4 996
     COMMUNICATION.o        96                         16
-    FTM.o               1 032                92       12
+    FTM.o               1 032               128       12
     IMG_FUNC.o          2 652                 4    5 520
     LCD.o               3 116                32    4 800
     LED.o                 176
@@ -431,12 +430,12 @@ C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspa
     assert.o               32                76
     crt0.o                 60
     delay.o                32
-    dma.o                 828                80
-    gpio.o                292               120       40
-    init.o                376                56      676
+    dma.o                 828               116
+    gpio.o                292               156       40
+    init.o                380                56      676
     io.o                   16
     isr.o               1 824               736       17
-    lptmr.o               240                84
+    lptmr.o               240               120
     main.o                 32                 2        2
     mcg.o                 752       76       84        8
     printf.o            1 376
@@ -448,7 +447,7 @@ C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspa
     vectors.o              36             1 088
     wdog.o                 56
     ----------------------------------------------------
-    Total:             34 224       76    6 260   16 258
+    Total:             34 228       76    6 404   16 258
 
 command line: [2]
     ----------------------------------------------------
@@ -477,11 +476,10 @@ m7M_tl.a: [4]
     FltSub.o              128
     FltToDbl.o             72
     FltToS32.o             42
-    FltToU32.o             34
     S32ToDbl.o             34
     S32ToFlt.o             36
     ----------------------------------------------------
-    Total:              2 954
+    Total:              2 920
 
 rt7M_tl.a: [5]
     ABImemclr4.o            6
@@ -500,10 +498,10 @@ shb_l.a: [6]
     ----------------------------------------------------
     Total:                 20
 
-    Gaps                   28                 4
+    Gaps                   26                 4
     Linker created          8                16
 --------------------------------------------------------
-    Grand Total:       37 588       76    6 280   16 258
+    Grand Total:       37 556       76    6 424   16 258
 
 
 *******************************************************************************
@@ -516,12 +514,12 @@ Entry                      Address    Size  Type      Object
 .bss$$Limit             0x1fff43e0           --   Gb  - Linker created -
 .data$$Base             0x1fff0410           --   Gb  - Linker created -
 .data$$Limit            0x1fff0568           --   Gb  - Linker created -
-.data_init$$Base        0x00009e2c           --   Gb  - Linker created -
-.data_init$$Limit       0x00009f84           --   Gb  - Linker created -
-.iar.init_table$$Base   0x0000a4d0           --   Gb  - Linker created -
-.iar.init_table$$Limit  0x0000a4e0           --   Gb  - Linker created -
-?main                   0x0000a5c1          Code  Gb  cmain.o [5]
-ASSERT_FAILED_STR       0x0000a1bc    0x4c  Data  Gb  assert.o [1]
+.data_init$$Base        0x00009e0c           --   Gb  - Linker created -
+.data_init$$Limit       0x00009f64           --   Gb  - Linker created -
+.iar.init_table$$Base   0x0000a540           --   Gb  - Linker created -
+.iar.init_table$$Limit  0x0000a550           --   Gb  - Linker created -
+?main                   0x0000a631          Code  Gb  cmain.o [5]
+ASSERT_FAILED_STR       0x0000a22c    0x4c  Data  Gb  assert.o [1]
 CNST_                   0x1fff0564     0x2  Data  Gb  main.o [1]
 CONTROL                 0x000048ed    0x1c  Code  Gb  CAMERA_FUNC.o [1]
 CONTROLED_MOTOR         0x0000640d    0x1e  Code  Gb  COMMUNICATION.o [1]
@@ -529,8 +527,8 @@ CONTROLED_TURN          0x000063e5    0x1e  Code  Gb  COMMUNICATION.o [1]
 CONTROL_MOTOR           0x0000642b     0xa  Code  Gb  COMMUNICATION.o [1]
 CONTROL_TURN            0x00006403     0xa  Code  Gb  COMMUNICATION.o [1]
 CameraView              0x00004915    0x76  Code  Gb  CAMERA_FUNC.o [1]
-CodeRelocate$$Base      0x0000a208           --   Gb  - Linker created -
-CodeRelocate$$Limit     0x0000a254           --   Gb  - Linker created -
+CodeRelocate$$Base      0x0000a278           --   Gb  - Linker created -
+CodeRelocate$$Limit     0x0000a2c4           --   Gb  - Linker created -
 CodeRelocateRam$$Base   0x1fff0568           --   Gb  - Linker created -
 CodeRelocateRam$$Limit  0x1fff05b4           --   Gb  - Linker created -
 DMA0_IRQHandler         0x00007531    0x16  Code  Gb  isr.o [1]
@@ -543,7 +541,7 @@ GPIOx                   0x1fff0494    0x14  Data  Gb  gpio.o [1]
 LCD_A_Point             0x000051e1   0x1ce  Code  Gb  LCD.o [1]
 LCD_Char                0x000053b1   0x312  Code  Gb  LCD.o [1]
 LCD_Clear               0x00005be5    0x1a  Code  Gb  LCD.o [1]
-LCD_DEBUG_ITER          0x00009921    0x2e  Code  Gb  init.o [1]
+LCD_DEBUG_ITER          0x00009921    0x32  Code  Gb  init.o [1]
 LCD_DEBUG_ITER::pos     0x1fff30f0     0x4  Data  Lc  init.o [1]
 LCD_Img                 0x00005b7f    0x66  Code  Gb  LCD.o [1]
 LCD_Img_Binary          0x00005875   0x30a  Code  Gb  LCD.o [1]
@@ -566,8 +564,8 @@ PIT1_IRQHandler         0x000075f1    0x7e  Code  Gb  isr.o [1]
 PIT2_IRQHandler         0x0000766f    0x44  Code  Gb  isr.o [1]
 PORTC_IRQHandler        0x00007505    0x2c  Code  Gb  isr.o [1]
 PORTX                   0x1fff04a8    0x14  Data  Gb  gpio.o [1]
-Region$$Table$$Base     0x0000a4d0           --   Gb  - Linker created -
-Region$$Table$$Limit    0x0000a4e0           --   Gb  - Linker created -
+Region$$Table$$Base     0x0000a540           --   Gb  - Linker created -
+Region$$Table$$Limit    0x0000a550           --   Gb  - Linker created -
 Reset_Handler           0x00000411          Code  Gb  crt0.o [1]
 SCCB_Ack                0x00006fe5    0x4c  Code  Lc  SCCB.o [1]
 SCCB_GPIO_init          0x00006edf    0x1c  Code  Gb  SCCB.o [1]
@@ -603,7 +601,6 @@ __aeabi_dmul            0x00005f21          Code  Gb  DblMul.o [4]
 __aeabi_dsub            0x000060c5          Code  Gb  DblSub.o [4]
 __aeabi_f2d             0x00005c3d          Code  Gb  FltToDbl.o [4]
 __aeabi_f2iz            0x00004bb9          Code  Gb  FltToS32.o [4]
-__aeabi_f2uiz           0x00009b09          Code  Gb  FltToU32.o [4]
 __aeabi_fadd            0x00004ad5          Code  Gb  FltAdd.o [4]
 __aeabi_fdiv            0x000062e9          Code  Gb  FltDiv.o [4]
 __aeabi_fmul            0x00006211          Code  Gb  FltMul.o [4]
@@ -613,27 +610,27 @@ __aeabi_i2f             0x00005c19          Code  Gb  S32ToFlt.o [4]
 __aeabi_memclr4         0x00007449          Code  Gb  ABImemclr4.o [5]
 __aeabi_memcpy4         0x00008909          Code  Gb  ABImemcpy.o [5]
 __aeabi_memcpy8         0x00008909          Code  Gb  ABImemcpy.o [5]
-__cmain                 0x0000a5c1          Code  Gb  cmain.o [5]
+__cmain                 0x0000a631          Code  Gb  cmain.o [5]
 __code_start__ {Abs}    0x00000410          Data  Gb  command line/config [2]
-__exit                  0x0000a5f5    0x14  Code  Gb  exit.o [6]
+__exit                  0x0000a665    0x14  Code  Gb  exit.o [6]
 __iar_Memset4_word      0x000074d1          Code  Gb  ABImemset48.o [5]
 __iar_Memset8_word      0x000074d1          Code  Gb  ABImemset48.o [5]
 __iar_dadd              0x000060d5          Code  Gb  DblSub.o [4]
-__iar_data_init3        0x0000a43d    0x28  Code  Gb  data_init.o [5]
+__iar_data_init3        0x0000a4ad    0x28  Code  Gb  data_init.o [5]
 __iar_dsub              0x000072e1          Code  Gb  DblAdd.o [4]
 __iar_dsubStart         0x000072f3          Code  Gb  DblAdd.o [4]
 __iar_fadd              0x00004a61          Code  Gb  FltSub.o [4]
 __iar_fsub              0x00004ae1          Code  Gb  FltAdd.o [4]
 __iar_fsubStart         0x00004af1          Code  Gb  FltAdd.o [4]
-__iar_program_start     0x0000aa5d          Code  Gb  cstartup_M.o [5]
+__iar_program_start     0x0000aacd          Code  Gb  cstartup_M.o [5]
 __iar_systems$$module {Abs}
                         0x00000001          Data  Gb  command line/config [2]
-__iar_zero_init3        0x0000a2dd    0x40  Code  Gb  zero_init3.o [5]
-__low_level_init        0x0000a5df     0x4  Code  Gb  low_level_init.o [3]
+__iar_zero_init3        0x0000a34d    0x40  Code  Gb  zero_init3.o [5]
+__low_level_init        0x0000a64f     0x4  Code  Gb  low_level_init.o [3]
 __vector_table          0x00000000   0x410  Data  Gb  vectors.o [1]
-_call_main              0x0000a5cd          Code  Gb  cmain.o [5]
-_exit                   0x0000a5e9          Code  Gb  cexit.o [5]
-_main                   0x0000a5db          Code  Gb  cmain.o [5]
+_call_main              0x0000a63d          Code  Gb  cmain.o [5]
+_exit                   0x0000a659          Code  Gb  cexit.o [5]
+_main                   0x0000a64b          Code  Gb  cmain.o [5]
 ascii_8x16              0x00008990   0x600  Data  Gb  ASCII.o [1]
 assert_failed           0x00003609    0x20  Code  Gb  assert.o [1]
 avgMid                  0x00006d75   0x132  Code  Gb  IMG_FUNC.o [1]
@@ -653,12 +650,12 @@ core_clk_khz            0x1fff43cc     0x4  Data  Gb  sysinit.o [1]
 core_clk_mhz            0x1fff43d0     0x4  Data  Gb  sysinit.o [1]
 cpu_identify            0x000090bf   0x216  Code  Gb  start.o [1]
 crossProcess            0x00006c7b     0x4  Code  Gb  IMG_FUNC.o [1]
-default_isr             0x0000a4ad    0x24  Code  Gb  vectors.o [1]
+default_isr             0x0000a51d    0x24  Code  Gb  vectors.o [1]
 delayms                 0x00003d71    0x1c  Code  Gb  delay.o [1]
 disable_irq             0x000036cd    0x62  Code  Gb  arm_cm4.o [1]
 enable_irq              0x0000362f    0x9e  Code  Gb  arm_cm4.o [1]
 enter_pidMenuList       0x00007e7d     0xc  Code  Gb  MENU.o [1]
-exit                    0x0000a5e3     0x4  Code  Gb  exit.o [3]
+exit                    0x0000a653     0x4  Code  Gb  exit.o [3]
 exti_init               0x00007c25    0x54  Code  Gb  OV7725.o [1]
 filterRoadBoundary      0x0000669b    0x8e  Code  Gb  IMG_FUNC.o [1]
 findEffectiveRoad       0x00006951   0x32a  Code  Gb  IMG_FUNC.o [1]
@@ -695,7 +692,7 @@ menuStart               0x00008035    0x1a  Code  Gb  MENU.o [1]
 middleBuff              0x1fff2d6c    0xe4  Data  Gb  IMG_FUNC.o [1]
 middlePoint             0x1fff2e50     0x4  Data  Gb  IMG_FUNC.o [1]
 motorFunc               0x1fff0410     0x4  Data  Gb  CAMERA_FUNC.o [1]
-motorPID_init           0x00009bdd    0x1a  Code  Gb  MOTOR.o [1]
+motorPID_init           0x00009bbd    0x1a  Code  Gb  MOTOR.o [1]
 motor_idle              0x1fff0440     0x4  Data  Gb  CAMERA_FUNC.o [1]
 motor_kd                0x1fff1898     0x4  Data  Gb  CAMERA_FUNC.o [1]
 motor_ki                0x1fff042c     0x4  Data  Gb  CAMERA_FUNC.o [1]
@@ -703,8 +700,8 @@ motor_kp                0x1fff0428     0x4  Data  Gb  CAMERA_FUNC.o [1]
 motor_max               0x1fff043c     0x4  Data  Gb  CAMERA_FUNC.o [1]
 motor_min               0x1fff0444     0x4  Data  Gb  CAMERA_FUNC.o [1]
 motor_pid               0x1fff30d0    0x20  Data  Gb  init.o [1]
-myInit                  0x00009951   0x110  Code  Gb  init.o [1]
-out_char                0x0000a9d5    0x10  Code  Gb  io.o [1]
+myInit                  0x00009955   0x110  Code  Gb  init.o [1]
+out_char                0x0000aa45    0x10  Code  Gb  io.o [1]
 ov7725_eagle_cfgnum     0x1fff0567     0x1  Data  Gb  OV7725.o [1]
 ov7725_eagle_dma        0x00007d19    0x14  Code  Gb  OV7725.o [1]
 ov7725_eagle_img_buff   0x1fff43c8     0x4  Data  Gb  OV7725.o [1]
@@ -719,7 +716,7 @@ pSGPID                  0x1fff04c0     0x4  Data  Gb  init.o [1]
 pidMenu                 0x1fff04d0     0x8  Data  Gb  MENU.o [1]
 pidMenuList             0x0000804f    0x66  Code  Gb  MENU.o [1]
 pidMenuPrint            0x000080b5    0x82  Code  Gb  MENU.o [1]
-pit_init                0x00009a99    0x62  Code  Gb  PIT.o [1]
+pit_init                0x00009a9d    0x62  Code  Gb  PIT.o [1]
 pll_init                0x00009631   0x2f0  Code  Gb  mcg.o [1]
 pointNum                0x1fff2e54     0x4  Data  Gb  IMG_FUNC.o [1]
 printf                  0x00003d49    0x22  Code  Gb  printf.o [1]
@@ -730,8 +727,8 @@ printk_pad_zero         0x000038f3    0x26  Code  Lc  printf.o [1]
 printk_putc             0x00003811    0x32  Code  Lc  printf.o [1]
 request_img             0x00003fef    0x1c  Code  Gb  CAMERA_FUNC.o [1]
 roadFB                  0x1fff18cc  0x14a0  Data  Gb  IMG_FUNC.o [1]
-sGManual                0x00009b4f    0x82  Code  Gb  STEERING_GEAR.o [1]
-sGPID_init              0x00009b2d    0x22  Code  Gb  STEERING_GEAR.o [1]
+sGManual                0x00009b2f    0x82  Code  Gb  STEERING_GEAR.o [1]
+sGPID_init              0x00009b0d    0x22  Code  Gb  STEERING_GEAR.o [1]
 setPid                  0x00008257    0x88  Code  Gb  MENU.o [1]
 set_sys_dividers        0x1fff0569    0x4c  Code  Gb  mcg.o [1]
 show_fps                0x00004027   0x104  Code  Gb  CAMERA_FUNC.o [1]
@@ -794,9 +791,9 @@ x3_I::sum               0x1fff18b8     0x4  Data  Lc  CAMERA_FUNC.o [1]
 [5] = rt7M_tl.a
 [6] = shb_l.a
 
-  37 588 bytes of readonly  code memory
+  37 556 bytes of readonly  code memory
       76 bytes of readwrite code memory
-   6 280 bytes of readonly  data memory
+   6 424 bytes of readonly  data memory
   16 258 bytes of readwrite data memory
 
 Errors: none

@@ -513,7 +513,7 @@ void CameraView(){
             CNST_--;
         }
         SCCB_WriteByte( 0x9C, CNST_);			//i2c协议，调整摄像头灰度
-        LCD_NUM(4, CNST_);
+        LCD_NUM(4, (int)CNST_);
     }
     car_flags = CAR_IDLE;
 }

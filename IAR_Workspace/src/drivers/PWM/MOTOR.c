@@ -27,7 +27,7 @@ int slowMark = FUNC_OPEN;					//减速记号
  * 注意  ：	（）测试
 *********************************************************/  
 void motorStart(int turn){
-	LCD_Num_8x16_X (70,74,carSpeed,BLACK,WHITE);
+	LCD_Num_8x16_X (70,74, (int)carSpeed,BLACK,WHITE);
   	speedChange(turn);
 }
 
@@ -46,7 +46,7 @@ void speedChange(int turn){
 	
 	tempD = ABS(middlePoint - 40);
 	
-        speedSet = MAX(0, 120 - 3 * tempD + 0.02 * tempD * tempD);
+        speedSet = (int)MAX(0, 120 - 3 * tempD + 0.02 * tempD * tempD);
 	
 	if(slowMark == FUNC_OPEN){
 	  	speedSet = MIN(speedSet, 80); //最高120
@@ -57,7 +57,7 @@ void speedChange(int turn){
 	}
 	
 	LCD_Num_8x16_X(50, 108, speedSet ,WHITE,BLACK);
-	temp2 = motorPID_realize(carSpeed, CONTROLED_MOTOR(speedSet),pMotorPID);
+	temp2 = motorPID_realize(carSpeed, (int)CONTROLED_MOTOR(speedSet),pMotorPID);
 	
         
         
