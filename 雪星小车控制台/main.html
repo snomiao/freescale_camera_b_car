@@ -1,0 +1,143 @@
+<head>
+	<meta charset="utf-8">
+	<style>
+	html{
+		background: black;
+	}
+	body{
+		background: white;
+	}
+	</style>
+</head>
+<body>
+<button onclick="location = location">重载</button>
+<button onclick="send('/')">启动遥控器</button>
+<button onclick="send('A')">A</button>
+<button onclick="send('S')">S</button>
+<button onclick="send('D')">D</button>
+<button onclick="send('W')">W</button>
+
+<textarea id="send_ed"></textarea>
+<textarea id="recv_ed"></textarea>
+
+
+<script type="text/javascript">
+	alert(1);
+</script>
+
+<script type="text/javascript">
+
+	var element_send_ed = document.querySelector("textarea#send_ed");
+	var element_recv_ed = document.querySelector("textarea#recv_ed");
+	var high_byte = 0;
+	var on_recv_byte = function(byte){
+		if(high_byte){
+			element_send_ed.value += String.fromCharCode( high_byte * 0x100 + byte );
+		}else{
+			if(byte > 127){
+				high_byte = byte;
+			}else{
+				element_send_ed.value += String.fromCharCode( byte );
+			}
+		}
+	}
+	var on_send_byte = function(byte){
+		element_send_ed.value += String.fromCharCode(byte);
+	}
+	var on_send = function(data){
+		element_send_ed.value += data;
+	}
+	var on_recv = function(str){
+		element_recv_ed.value += str;
+	}
+	var on_recv = function(data){
+		element_recv_ed.value += data;
+	}
+	var on_recv_char = function(data){
+		element_recv_ed.value += data;
+	}
+	var send = function(data){
+		external.send(data)
+	}
+	var send_byte = function(data){
+		external.send_byte(byte)
+	}
+	var send_to_ascii = function(data){
+		external.send_to_ascii(data)
+	}
+	send('/ ');
+	send('1测试');
+	send('/ ');
+	send('2ABC');
+</script>
+<script>
+	
+	GB2312ToUTF8 = function(s1) {
+	    var s = escape(s1);
+	    var sa = s.split("%");
+	    var retV = "";
+	    if (sa[0] != "") {
+	        retV = sa[0];
+	    }
+	    for (var i = 1; i < sa.length; i++) {
+	        if (sa[i].substring(0, 1) == "u") {
+	            //alert(this.Str2Hex(sa[i].substring(1,5)));
+	            retV += this.Hex2Utf8(this.Str2Hex(sa[i].substring(1, 5)));
+	            if (sa[i].length) {
+	                retV += sa[i].substring(5);
+	            }
+	        } else {
+	            retV += unescape("%" + sa[i]);
+	            if (sa[i].length) {
+	                retV += sa[i].substring(5);
+	            }
+	        }
+	    }
+	    return retV;
+	};
+
+	UTF8ToGB2312 = function(str1) {
+	    var substr = "";
+	    var a = "";
+	    var b = "";
+	    var c = "";
+	    var i = -1;
+	    i = str1.indexOf("%");
+	    if (i == -1) {
+	        return str1;
+	    }
+	    while (i != -1) {
+	        if (i < 3) {
+	            substr = substr + str1.substr(0, i - 1);
+	            str1 = str1.substr(i + 1, str1.length - i);
+	            a = str1.substr(0, 2);
+	            str1 = str1.substr(2, str1.length - 2);
+	            if (parseInt("0x" + a) & 0x80 == 0) {
+	                substr = substr + String.fromCharCode(parseInt("0x" + a));
+	            } else if (parseInt("0x" + a) & 0xE0 == 0xC0) { //two byte
+	                b = str1.substr(1, 2);
+	                str1 = str1.substr(3, str1.length - 3);
+	                var widechar = (parseInt("0x" + a) & 0x1F) << 6;
+	                widechar = widechar | (parseInt("0x" + b) & 0x3F);
+	                substr = substr + String.fromCharCode(widechar);
+	            } else {
+	                b = str1.substr(1, 2);
+	                str1 = str1.substr(3, str1.length - 3);
+	                c = str1.substr(1, 2);
+	                str1 = str1.substr(3, str1.length - 3);
+	                var widechar = (parseInt("0x" + a) & 0x0F) << 12;
+	                widechar = widechar | ((parseInt("0x" + b) & 0x3F) << 6);
+	                widechar = widechar | (parseInt("0x" + c) & 0x3F);
+	                substr = substr + String.fromCharCode(widechar);
+	            }
+	        } else {
+	            substr = substr + str1.substring(0, i);
+	            str1 = str1.substring(i);
+	        }
+	        i = str1.indexOf("%");
+	    }
+
+	    return substr + str1;
+	}
+</script>
+</body>

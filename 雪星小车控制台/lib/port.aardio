@@ -1,0 +1,1029 @@
+﻿//port 串口通讯
+/****************************************************
+author	: H.green
+date	: 2015.08
+email	: huanglvboy@aliyun.com
+****************************************************/
+namespace port;
+
+class SerialPort{
+	ctor(port = "COM1",
+		 baudrate = 9600,
+		 parity = 0,		// 0-4 = None,Odd,Even,Mark,Space
+		 databits = 8,		// 4-8
+		 stopbits = 0		// 0,1,2 = One,OnePointFive,Two
+		){
+		//this.portName = port;	//改用后面属性的形式(类的私有数据怎么搞?按照AAuto帮助文档声明为var就可以了?)
+		PortName_ = port;
+		BaudRate_ = baudrate;
+		Parity_ = parity;
+		DataBits_ = databits;
+		StopBits_ = stopbits;
+		
+		Flags_ = 2_1000000010011;	//用一个INT变量(4字节)来设定fBinary、fParity等标志位。为了直观，这里使用二进制表示。
+		
+		//串口等待事件集
+		CommWaitEvents_ = 0x1/*_EV_RXCHAR*/ | 0x2/*_EV_RXFLAG*/ | 0x4/*_EV_TXEMPTY*/ | 0x8/*_EV_CTS*/ | 0x10/*_EV_DSR*/
+							| 0x20/*_EV_RLSD*/ | 0x40/*_EV_BREAK*/ | 0x80/*_EV_ERR*/ | 0x100/*_EV_RING*/ | 0x400/*_EV_RX80FULL*/;
+		
+		XonLim_ = 1024;
+		XoffLim_ = 1024;
+		XonChar_ = 0x11;
+		XoffChar_ = 0x13;
+		ErrorChar_ = 0;
+		EofChar_ = 0;
+		EvtChar_ = 0;
+		
+		//超时值，根据需要自行设定
+		ReadInterval_ = 100;
+		ReadTimeoutMult_ = 10;
+		ReadTimeoutConst_ = 1000;
+		WriteTimeoutMult_ = 10;
+		WriteTimeoutConst_ = 1000;
+		
+		//串行驱动的输入、输出缓冲区大小
+		ReadBufSize_ = 4096;
+		WriteBufSize_ = 2048;
+		
+		hComm = null;			//串口句柄
+		NotifyPID = null;		//调用线程的ID
+		NotifyhWnd_ = null;		//调用线程的主窗口句柄，接收读、写线程的消息(直接枚举线程窗口，我不知道如何做到窗口唯一)
+		ReadThread = null;		//读线程句柄
+		ReadThreadID = null;	//读线程ID(暂时未用到)
+		WriteThread = null;		//写线程句柄
+		WriteThreadID = null;	//写线程ID(暂时未用到)
+		
+		WriteBuffer = null;		//发送缓冲区。使用线程共享表将要写的数据传入写线程
+		LockWriteBuf = null;	//临界区锁
+		
+		hCloseEvent = null;		//通知读、写线程退出(这是一个系统事件对象)
+		hWriteEvent = null;		//通知写线程执行写操作(这是一个系统事件对象)
+		
+		..table.gc(this,"Close");
+	};
+	
+	@_metaProperty	//属性元表
+	
+};
+
+
+namespace SerialPort
+{
+	import util.metaProperty;
+	import thread.event;
+	import thread.table;
+
+	//===========================================================================================================
+	//  函数：WriteThreadEntry( hComm, NotifyPID, NotifyhWnd, PortName_ )
+	//
+	//  功能：后台写线程的入口。
+	//
+	//  参数：
+	//	    hComm - 串口句柄。
+	//		NotifyPID - 调用进程的主线程ID
+	//	    NotifyhWnd - 调用进程接收消息的窗口句柄。
+	//	    PortName_ - 当前串口名。
+	//
+	//  返回值：
+	//	    无。
+	//===========================================================================================================
+	var WriteThreadEntry = function( hComm, NotifyPID, NotifyhWnd, PortName_ )
+	{
+		import thread.event;
+		import thread.table;
+		
+		//曾经尝试把共用的API函数及结构体放在一个namespace之后再import(不想放在单独的文件里)，没搞定，待学习
+		class OVERLAPPED {
+			ADDR Internal = 0;
+			ADDR InternalHigh = 0;
+			INT Offset = 0;
+			INT OffsetHigh = 0;
+			pointer hEvent = null;
+		};
+		
+
+		var PurgeComm = ::Kernel32.api("PurgeComm","bool(POINTER hFile,INT dwFlags)");
+		var WriteFile = ::Kernel32.api("WriteFile","bool(POINTER hFile,pointer lpBuffer,INT nNumberOfBytesToWrite,INT& lpNumberOfBytesWritten,pointer lpOverlapped)");
+		//var WriteFile = ::Kernel32.api("WriteFile","bool(POINTER hFile,string lpBuffer,INT nNumberOfBytesToWrite,INT& lpNumberOfBytesWritten,pointer lpOverlapped)");
+		var GetOverlappedResult = ::Kernel32.api("GetOverlappedResult","bool(POINTER hFile,pointer lpOverlapped,INT& lpNumberOfBytesTransferred,bool bWait)");
+		var PostThreadMsg = ::User32.api("PostThreadMessageA","addr(int idThread,INT msg,ADDR wParam,ADDR lParam)");
+		var SendMsg = ::User32.api("SendMessageA","addr(addr hwnd,INT msg,ADDR wParam,ADDR lParam)");
+		
+		_UWM_COMM_SENDEDBYTES	= ( 0x8000/*_WM_APP*/ + 0x801 );	//已发送数据
+		_UWM_COMM_FATALERR		= ( 0x8000/*_WM_APP*/ + 0x901 );	//后台线程发生致命错误，程序必须终止
+		
+		//================================================
+		//给调用线程发送一个自定义消息
+		//================================================
+		var SendAppMsg = function( msg, wParam=0, lParam=0 )
+		{
+			if( NotifyhWnd )
+				SendMsg( NotifyhWnd, msg, wParam, lParam );
+			else
+				PostThreadMsg( NotifyPID, msg, wParam, lParam );
+		}
+		
+		var ov = OVERLAPPED();
+		ov.hEvent = thread.event( "", true, false );
+		if( !ov.hEvent )
+		{
+			SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+			return;
+		}
+		var p = ..raw.malloc(ov);
+		
+		WriteBuffer = thread.table(PortName_ ++ "WriteBuffer");	//实际上是打开主线程创建的WriteBuffer的共享表
+		hCloseEvent = thread.event(PortName_ ++ "CloseEvent", true, false );	//实际上是打开主线程创建的hCloseEvent
+		hWriteEvent = thread.event(PortName_ ++ "WriteEvent", true, false );	//实际上是打开主线程创建的hWriteEvent		
+		LockWrite = PortName_ ++ "LockWrite";
+		LockWriteBuf = PortName_ ++ "LockWriteBuf";
+		
+		
+		//================================================
+		//直接写物理端口，buffer是一个字符串的指针
+		//================================================
+		var WritePort = function(buffer)
+		{
+			var WaitEvents = { hCloseEvent; ov.hEvent };	//注意数组下标默认从1开始
+			
+			..thread.lock(LockWrite);
+			
+			var len = #buffer;	//字节长度
+			var ok,nWrite = WriteFile( hComm, buffer, len, 0, p );
+			while(!ok)	//为了便于中途退出，用while取代if，这样可以使用break退出
+			{
+				if( ::GetLastError() == 0x3E5/*_ERROR_IO_PENDING*/ )
+				{
+					var rEvt = ..thread.waitOne( WaitEvents );	//在写入大量数据时，可能中间会退出，所以要等待CloseEvent
+					select(rEvt) 
+					{
+						case 1	//hCloseEvent
+						{
+							break;
+						}
+						case 2	//ov.hEvent
+						{
+							ok,nWrite = GetOverlappedResult( hComm, p, 0, false );
+							if(!ok)
+								SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+						}
+						else
+						{
+							SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+						}
+					}
+				}
+				else
+				{
+					SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+				}
+				break;
+			}
+			
+			..thread.unlock(LockWrite);
+			
+			//发送消息，消息附带内容是已写入的字节数、要写入的字节数
+			SendAppMsg( _UWM_COMM_SENDEDBYTES, nWrite, len );
+			
+			return nWrite;
+		};
+
+		//================================================
+		//在后台监视写操作
+		//================================================
+		var MonitortWrite = function()
+		{
+			while(true)
+			{
+				var WaitEvents = { hCloseEvent; hWriteEvent };	//注意数组下标默认从1开始
+				
+				var rEvt = ..thread.waitOne( WaitEvents );	//开始等待，默认的等待超时是0xFFFFFFFF/*_INFINITE*/
+				select(rEvt) 
+				{
+					case 1	//hCloseEvent
+					{
+						break;
+					}
+					case 2	//hWriteEvent
+					{
+						..thread.lock(LockWriteBuf);
+						var s = WriteBuffer.pop(1);	//在锁定发送缓冲区的情况下，应该一次只能有一个元素进入缓冲区，所以不需要遍历表
+						..thread.unlock(LockWriteBuf);					
+						
+						hWriteEvent.reset();	//重置写事件为无信号
+						
+						if(!(#s)) continue;				
+						WritePort(s);	//写串口
+					}
+					else 
+					{
+						SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+						break;
+					}
+				}
+			}
+			PurgeComm( hComm, 0x0001/*_PURGE_TXABORT*/ | 0x0004/*_PURGE_TXCLEAR*/);	//清理
+			WriteBuffer.pop(WriteBuffer.len());
+			//thread.event事件对象在线程退出后由系统自动清理
+		};
+		
+		//================================================
+		MonitortWrite();	//开始监视
+		//================================================
+	};
+	
+	//===========================================================================================================
+	//  函数：ReadThreadEntry(  hComm, NotifyPID, NotifyhWnd, PortName_ )
+	//
+	//  功能：后台读线程的入口。
+	//
+	//  参数：
+	//	    hComm - 串口句柄。
+	//		NotifyPID - 调用进程的主线程ID
+	//	    NotifyhWnd - 调用进程接收消息的窗口句柄。
+	//	    PortName_ - 当前串口名。
+	//
+	//  返回值：
+	//	    无。
+	//===========================================================================================================
+	var ReadThreadEntry = function( hComm, NotifyPID, NotifyhWnd, PortName_ )
+	{
+		import thread.event;
+		import thread.table;
+		
+		class OVERLAPPED {
+			ADDR Internal = 0;
+			ADDR InternalHigh = 0;
+			INT Offset = 0;
+			INT OffsetHigh = 0;
+			pointer hEvent = null;
+		};
+		
+		class COMSTAT {
+			INT Flags = 0;
+			INT cbInQue = 0;
+			INT cbOutQue = 0;
+		};
+		
+		var WaitCommEvent = ::Kernel32.api("WaitCommEvent","bool(POINTER hFile,pointer lpEvtMask,pointer lpOverlapped)");
+		var PurgeComm = ::Kernel32.api("PurgeComm","bool(POINTER hFile,INT dwFlags)");
+		var ReadFile = ::Kernel32.api("ReadFile","bool(POINTER hFile,BYTE& lpBuffer,INT nNumberOfBytesToRead,INT& lpNumberOfBytesRead,pointer overlapped)");
+		//var ReadFile = ::Kernel32.api("ReadFile","bool(POINTER hFile,POINTER lpBuffer,INT nNumberOfBytesToRead,INT& lpNumberOfBytesRead,pointer overlapped)");
+		var GetOverlappedResult = ::Kernel32.api("GetOverlappedResult","bool(POINTER hFile,pointer lpOverlapped,INT& lpNumberOfBytesTransferred,bool bWait)");
+		var ClearCommError = ::Kernel32.api("ClearCommError","bool(POINTER hFile,pointer lpErrors,struct& lpStat)");
+		var ClearCommBreak = ::Kernel32.api("ClearCommBreak","bool(POINTER hFile)");
+		var PostThreadMsg = ::User32.api("PostThreadMessageA","addr(int idThread,INT msg,ADDR wParam,ADDR lParam)");
+		var SendMsg = ::User32.api("SendMessageA","addr(addr hwnd,INT msg,ADDR wParam,ADDR lParam)");	//可以跨进程
+		//var GetTickCount = ::Kernel32.api("GetTickCount","INT(void)");
+		
+		//定义发送的消息
+		_UWM_COMM_RXCHAR	= ( 0x8000/*_WM_APP*/ + 0x701 );
+		_UWM_COMM_RXFLAG 	= ( 0x8000/*_WM_APP*/ + 0x702 );
+		_UWM_COMM_TXEMPTY	= ( 0x8000/*_WM_APP*/ + 0x703 );
+		_UWM_COMM_CTS		= ( 0x8000/*_WM_APP*/ + 0x704 );
+		_UWM_COMM_DSR		= ( 0x8000/*_WM_APP*/ + 0x705 );
+		_UWM_COMM_RLSD		= ( 0x8000/*_WM_APP*/ + 0x706 );
+		_UWM_COMM_BREAK		= ( 0x8000/*_WM_APP*/ + 0x707 );
+		_UWM_COMM_ERR		= ( 0x8000/*_WM_APP*/ + 0x708 );
+		_UWM_COMM_RING		= ( 0x8000/*_WM_APP*/ + 0x709 );
+		_UWM_COMM_RX80FULL	= ( 0x8000/*_WM_APP*/ + 0x710 );
+		_UWM_COMM_EVENT1	= ( 0x8000/*_WM_APP*/ + 0x711 );
+		_UWM_COMM_EVENT2	= ( 0x8000/*_WM_APP*/ + 0x712 );
+		_UWM_COMM_FATALERR	= ( 0x8000/*_WM_APP*/ + 0x901 );	//后台线程发生致命错误，程序必须终止
+		
+		//================================================
+		//给调用线程发送一个自定义消息
+		//================================================
+		var SendAppMsg = function( msg, wParam=0, lParam=0 )
+		{
+			if( NotifyhWnd )
+				SendMsg( NotifyhWnd, msg, wParam, lParam );
+			else
+				PostThreadMsg( NotifyPID, msg, wParam, lParam );
+		}
+		
+		var ov = OVERLAPPED();
+		ov.hEvent = thread.event( "", true, false );
+		if( !ov.hEvent )
+		{
+			SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+			return;
+		}
+		
+		var p = ..raw.malloc(ov);
+		var Comstat = COMSTAT();
+		
+		hCloseEvent = thread.event( PortName_ ++ "CloseEvent", true, false );	//实际上是打开主线程创建的hCloseEvent
+		LockRead = PortName_ ++ "LockRead";
+		
+		var WaitEvents = { hCloseEvent; ov.hEvent };	//数组下标默认从1开始
+		
+		
+		//================================================
+		// 直接读物理端口，len指定要读取的字节。
+		//================================================
+		var ReadPort = function(len)
+		{
+			var ok,byte,nRead,rEvt = false,0,0,0;
+			//var buf = {};	//本串口库内部暂时不需要ReadPort返回数据，所以去除buf的相关操作
+			
+			..thread.lock(LockRead);
+			while(len)
+			{
+				ok,byte = ReadFile( hComm, 0, 1, 0, p );	//读一个字节
+				if(!ok)
+				{
+					if( ::GetLastError() == 0x3E5/*_ERROR_IO_PENDING*/ )
+					{
+						rEvt = ..thread.waitOne( WaitEvents );
+						select(rEvt)
+						{
+							case 1	//hCloseEvent
+							{
+								break;
+							}
+							case 2	//ov.hEvent
+							{
+								//if(!GetOverlappedResult( hComm, p, 0, false ))
+									//break;
+							}
+							else
+							{
+								SendAppMsg(_UWM_COMM_FATALERR);
+								break;
+							}
+						}
+					}
+					else
+					{
+						SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+						break;
+					}
+				}
+				
+				if(byte)
+				{
+					//ReadBuffer.push(byte);	//使用线程共享表在这里push的速度不够快，在连续快速压入数据时会卡死，普通表没有这个问题
+					//..table.push(buf,byte);
+					SendAppMsg( _UWM_COMM_RXCHAR, 0, byte );
+					nRead++;	//统计已读字节
+				}
+				len--;
+			}
+			..thread.unlock(LockRead);
+	
+			//return (#buf) ? buf : null;
+		};
+		
+		//================================================
+		//处理串口事件
+		//================================================
+		var ProcCommEvents = function( Mask )
+		{
+			var ok,Comstat = ClearCommError( hComm, null, Comstat );
+			
+			if ( (Mask & 0x1/*_EV_RXCHAR*/) && Comstat.cbInQue )	//确实有数据才读
+				ReadPort(Comstat.cbInQue);
+			
+			if ( Mask & 0x2/*_EV_RXFLAG*/ )
+				SendAppMsg(_UWM_COMM_RXFLAG);
+			
+			if ( Mask & 0x4/*_EV_TXEMPTY*/ )
+				SendAppMsg(_UWM_COMM_TXEMPTY);
+			
+			if ( Mask & 0x8/*_EV_CTS*/ )
+				SendAppMsg(_UWM_COMM_CTS);
+    		
+    		if ( Mask & 0x10/*_EV_DSR*/ )
+				SendAppMsg(_UWM_COMM_DSR);
+    		
+    		if ( Mask & 0x20/*_EV_RLSD*/ )
+				SendAppMsg(_UWM_COMM_RLSD);
+			
+			if ( Mask & 0x40/*_EV_BREAK*/ )
+			{
+				SendAppMsg(_UWM_COMM_BREAK);
+				ClearCommBreak(hComm);
+			}
+    		
+    		if ( Mask & 0x80/*_EV_ERR*/ )
+				SendAppMsg(_UWM_COMM_ERR);
+				
+			if ( Mask & 0x100/*_EV_RING*/ )
+				SendAppMsg(_UWM_COMM_RING);
+				
+			if ( Mask & 0x400/*_EV_RX80FULL*/ )
+				SendAppMsg(_UWM_COMM_RX80FULL);
+				
+			if ( Mask & 0x800/*_EV_EVENT1*/ )
+				SendAppMsg(_UWM_COMM_EVENT1);
+				
+			if ( Mask & 0x1000/*_EV_EVENT2*/ )
+				SendAppMsg(_UWM_COMM_EVENT2);
+		};
+		
+		
+		//================================================
+		//在后台监视串口事件
+		//================================================
+		var MonitorRead = function()
+		{
+			var ok,rEvt,mask = false,0,0;
+			var pMask = ..raw.malloc(4);	//分配4字节的内存，相当于一个INT变量
+			
+			while(true)
+			{
+				//WaitCommEvent第2个参数lpEvtMask声明为INT&为何不能及时返回错误掩码?使用变量接收且配合GetOverlappedResult使用也不行
+				ok = WaitCommEvent( hComm, pMask, p );
+				if(!ok)
+				{
+					//重叠IO下ERROR_IO_PENDING是预期的返回值，之后就是等待事件返回。
+					//如果没有事件返回的情况下再次调用WaitCommEvent就会返回ERROR_INVALID_PARAMETER，本例程当中避免这种情况
+					if( ::GetLastError() != 0x3E5/*_ERROR_IO_PENDING*/ )
+					{
+						SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+						break;
+					}
+				}
+				else
+				{
+					ok,Comstat = ClearCommError( hComm, null, Comstat );
+					if ( Comstat.cbInQue == 0 )
+						continue;
+				}
+				
+				rEvt = ..thread.waitOne( WaitEvents );	//开始等待，默认的等待超时0xFFFFFFFF/*_INFINITE*/
+				select(rEvt)
+				{
+					case 1	//CloseEvent
+					{
+						break;
+					}
+					case 2	//CommEvents
+					{
+						//ok = GetOverlappedResult( hComm, p, 0, false );
+						if(pMask[2])	//这里这种处理方式可能有问题(WaitCommEvent返回lpEvtMask还是搞不定)
+							mask = ..math.abs(pMask[1]) + ..math.abs(pMask[2]) * 256;
+						else
+							mask = pMask[1];
+						
+						ProcCommEvents(mask);	//处理串口事件
+					}
+					else 
+					{
+						SendAppMsg(_UWM_COMM_FATALERR);	//致命错误
+						break;
+					}
+				}
+			}
+			PurgeComm( hComm, 0x0002/*_PURGE_RXABORT*/ | 0x0008/*_PURGE_RXCLEAR*/);	//清理
+		};
+		
+		//================================================
+		MonitorRead();		//开始监视串口事件
+		//================================================
+	};
+	
+	
+	//===========================================================================================================
+	//  函数：InitComm( )
+	//
+	//  功能：初始化串口参数，包括缓冲区大小、读写超时、波特率、串口等待事件等。
+	//
+	//  参数：
+	//	    无。
+	//
+	//  返回值：
+	//	    成功返回true，失败返回false。
+	//===========================================================================================================
+	var InitComm = function()
+	{
+		if( !SetupComm( hComm, ReadBufSize_, WriteBufSize_ ) )
+			return false;
+		
+		var ok,dcb = GetCommState( hComm, DCB() );
+		if( !ok )
+			return false;
+		
+		//dcb.DCBlength = raw.sizeof(dcb);
+		dcb.BaudRate = BaudRate_;
+		dcb.Parity = Parity_;
+		dcb.ByteSize = DataBits_;
+		dcb.StopBits = StopBits_;
+		
+		dcb.Flags = Flags_;
+		dcb.XonLim = XonLim_;
+		dcb.XoffLim = XoffLim_;
+		dcb.XonChar = XonChar_;
+		dcb.XoffChar = XoffChar_;
+		dcb.XoffLim = XoffLim_;
+		dcb.EofChar = EofChar_;
+		dcb.EvtChar = EvtChar_;
+		
+		if( !SetCommState( hComm, dcb ) ) 
+			return false;
+		
+		//调用SetCommState之后Flags_参数未必像我们设定的那样，所以再次调用GetCommState把实际的值读出来
+		ok,dcb = GetCommState( hComm, dcb );
+		if( !ok )
+			return false;
+		Flags_ = dcb.Flags;
+		
+		var t = COMMTIMEOUTS();
+		t.ReadIntervalTimeout = ReadInterval_;
+		t.ReadTotalTimeoutMultiplier = ReadTimeoutMult_;
+		t.ReadTotalTimeoutConstant = ReadTimeoutConst_;
+		t.WriteTotalTimeoutMultiplier = WriteTimeoutMult_;
+		t.WriteTotalTimeoutConstant = WriteTimeoutConst_;
+		if( !SetCommTimeouts( hComm, t ) )
+			return false;
+		
+		if( !SetCommMask( hComm, CommWaitEvents_ ) )
+			return false;
+		
+		if( !PurgeComm( hComm, 0x0001/*_PURGE_TXABORT*/ | 0x0002/*_PURGE_RXABORT*/ | 0x0004/*_PURGE_TXCLEAR*/ | 0x0008/*_PURGE_RXCLEAR*/) )
+			return false;
+		
+		return true;
+	};
+	
+	
+	//===========================================================================================================
+	//  函数：InitThreads( )
+	//
+	//  功能：初始化后台读、写线程及相关事件、缓冲区。
+	//
+	//  参数：
+	//	    无。
+	//
+	//  返回值：
+	//	    成功返回true，失败返回false。
+	//===========================================================================================================
+	var InitThreads = function()
+	{
+		//创建事件
+		hCloseEvent = thread.event(PortName_ ++ "CloseEvent", true, false );	//命名事件，手动复位，初始状态为无信号状态
+		hWriteEvent = thread.event(PortName_ ++ "WriteEvent", true, false );
+		if( !hCloseEvent || !hWriteEvent ) 
+			return false;
+		
+		hCloseEvent.reset();	//似乎在读、写线程终止之后，虽然其句柄已经被关闭，但是对象并没有立即被销毁。强制reset
+		hWriteEvent.reset();
+	
+		//创建线程共享表，用于将要写的数据传入写线程，加上串口号是为了防止多个实例访问同样的表
+		WriteBuffer = thread.table(PortName_ ++ "WriteBuffer");
+		LockWriteBuf = PortName_ ++ "LockWriteBuf";
+		
+		NotifyPID = thread.getMainId();	//调用线程的ID，接收后台读、写线程的消息(调用线程必须有消息队列)
+		
+		//创建后台读、写线程
+		ReadThread,ReadThreadID = ..thread.create( ReadThreadEntry, hComm, NotifyPID, NotifyhWnd_, PortName_ );
+		WriteThread,WriteThreadID = ..thread.create( WriteThreadEntry, hComm, NotifyPID, NotifyhWnd_, PortName_ );
+		if( !ReadThread || !WriteThread ) 
+			return false;
+		
+		//Windows是分时系统，虽然读线程优先级设为最高，但是读取大量数据的时候仍然很可能会分几次读取
+		SetThreadPriority( ReadThread, 0x2/*_THREAD_PRIORITY_HIGHEST*/ );	//读线程的优先级最高
+		SetThreadPriority( WriteThread, 0x1/*_THREAD_PRIORITY_ABOVE_NORMAL*/ );
+		
+		return true;
+	};
+	
+	
+	_metaProperty = util.metaProperty(
+		//===========================================================================================================
+		//  函数：Open( )
+		//
+		//  功能：打开串口。
+		//
+		//  参数：
+		//	    无。
+		//
+		//  返回值：
+		//	     0 - 打开成功；
+		//	     1 - 串口已打开；
+		//	     2 - 指定的串口无效或者被占用；
+		//	     3 - 初始化串口参数(波特率、超时、缓冲区等)失败；
+		//	     4 - 初始化后台线程失败；
+		//===========================================================================================================
+		Open = function()
+		{
+			if( hComm){
+				error("串口已经打开",2);
+				return 1; 
+			}
+			
+			hComm = CreateFile(PortName_,
+								0x80000000/*_GENERIC_READ*/ | 0x40000000/*_GENERIC_WRITE*/,
+								0,
+								null,
+								0x3/*_OPEN_EXISTING*/,
+								0x40000000/*_FILE_FLAG_OVERLAPPED*/,
+								null);
+			if( hComm == INVALID_HANDLE ){
+				hComm = null;
+				error("指定的串口无效或者被占用",2);
+				return 2;
+			}
+			
+			//初始化串口参数(波特率、超时时间、缓冲区大小、等待事件等)
+			if ( !InitComm() )
+			{
+				owner.Close();
+				error("初始化串口参数失败",2);
+				return 3;
+			}
+			
+			//初始化后台读、写线程及相关事件、缓冲区
+			if ( !InitThreads() )
+			{
+				owner.Close();
+				error("初始化后台线程失败",2);
+				return 4;
+			}
+			
+			return 0; 
+		};
+		
+		//===========================================================================================================
+		//  函数：Close( )
+		//
+		//  功能：关闭串口。
+		//
+		//  参数：
+		//	    无。
+		//
+		//  返回值：
+		//	    无。
+		//===========================================================================================================
+		Close = function()
+		{	
+			if(hCloseEvent)
+				hCloseEvent.set();	//通知后台读、写线程退出
+		
+			//关闭后台线程句柄(线程应该自然退出)
+			if(ReadThread)
+				..raw.closehandle(ReadThread);
+			if(WriteThread)
+				..raw.closehandle(WriteThread);
+			
+			//关闭串口句柄
+			if(hComm)
+				..raw.closehandle(hComm);
+			
+			//调用进程(线程)终止后系统会自动关闭事件对象的句柄，当所有的引用都关闭之后系统自动销毁事件对象。	
+			hCloseEvent = null;
+			hWriteEvent = null;
+			ReadThread = null;
+			WriteThread = null;
+			hComm = null;
+		};	
+		
+		
+		//===========================================================================================================
+		//  函数：Write( s )
+		//
+		//  功能：发送一个字符串。
+		//
+		//  参数：
+		//	    s - 字符串。
+		//
+		//  返回值：
+		//	    无。
+		//===========================================================================================================
+		Write = function(s)
+		{
+			if( !hComm || !(#s) || type(s)!=type.string )
+				return;
+			
+			..thread.lock(LockWriteBuf);	//锁定发送缓冲区
+			WriteBuffer.push(s);	//主线程push，写线程pop，相当于堆栈。
+			..thread.unlock(LockWriteBuf);
+			
+			hWriteEvent.set();
+		};
+		
+		
+		//===========================================================================================================
+		//  函数：WriteHex( s )
+		//
+		//  功能：发送一个字符串，该字符串两两表示一个字符的16进制ASCII码值，例如“41 31 24”表示“A1$”。
+		//
+		//  参数：
+		//	    s - 字符串。
+		//
+		//  返回值：
+		//	    无。
+		//
+		//  注意：
+		//		若字符串s中包含有非16进制的字符(0-9A-Fa-f之外的字符)，函数将自动去掉这些字符再依次两两组合
+		//===========================================================================================================
+		WriteHex = function(s)
+		{
+			if( !hComm || !(#s) || type(s)!=type.string )
+				return;
+			
+			var str = ..string.replace(s, "[^0-9a-fA-F]", "");	//去除所有非16进制字符
+			if(!(#str)) return;
+			
+			var buf = {};
+			for(i=1;..string.len(str);2)
+			{
+				var n = tonumber( ..string.sub(str,i,i+1), 16 );	//每2个16进制字符转换成一个字符的ASCII码值
+				..table.push( buf, n );
+			}
+			
+			str = ..string.pack(buf);
+			
+			..thread.lock(LockWriteBuf);	//锁定发送缓冲区
+			WriteBuffer.push(str);
+			..thread.unlock(LockWriteBuf);
+			
+			hWriteEvent.set();
+		};
+		
+		//===========================================================================================================
+		//  函数：ClearInBuffer()
+		//
+		//  功能：清空输入缓冲区，并中断读操作。
+		//===========================================================================================================
+		ClearInBuffer = function()
+		{
+			if(hComm) return PurgeComm( hComm, 0x0002/*_PURGE_RXABORT*/ | 0x0008/*_PURGE_RXCLEAR*/);
+		}
+		
+		//===========================================================================================================
+		//  函数：ClearOutBuffer()
+		//
+		//  功能：清空输出缓冲区，并中断写操作。
+		//===========================================================================================================
+		ClearOutBuffer = function()
+		{
+			if(hComm) return PurgeComm( hComm, 0x0001/*_PURGE_TXABORT*/ | 0x0004/*_PURGE_TXCLEAR*/);
+		}
+		
+		//===========================================================================================================
+		//  函数：OnReceive( sender, buffer, len )
+		//
+		//  功能：接收数据回调。
+		//===========================================================================================================
+		OnReceive = function( sender, buffer, len )
+		{
+			//不用线程共享表，不用线程消息，还有哪些手段共享数据?
+		}
+		
+		
+		//===========================================================================================================
+		//	以下是串口属性，对于可写的属性，由调用者维护设置值的正确性。例如波特率应该为无符号整数。
+		//===========================================================================================================
+		//端口句柄
+		Handle = {
+			_get = function(){ return hComm; } 
+		};
+		
+		//端口是否打开
+		IsOpen = {
+			_get = function(){ return (hComm != null); }
+		};
+		
+		//端口名
+		PortName = {
+			_get = function(){ return PortName_; }
+			_set = function(v){ if( !hComm ) PortName_ = tostring(v); }
+		};
+		
+		//波特率
+		BaudRate = {
+			_get = function(){ return BaudRate_; }
+			_set = function(v){ if( !hComm ) BaudRate_ = tonumber(v); }
+		};
+		
+		//校验方式
+		Parity = {
+			_get = function(){ return Parity_; }
+			_set = function(v){ if( !hComm ) Parity_ = tonumber(v);}
+		};
+		
+		//数据位
+		DataBits = {
+			_get = function(){ return DataBits_; }
+			_set = function(v){ if( !hComm ) DataBits_ = tonumber(v); }
+		};
+		
+		//停止位
+		StopBits = {
+			_get = function(){ return StopBits_; }
+			_set = function(v){ if( !hComm ) StopBits_ = tonumber(v); }
+		};
+		
+		//标志位
+		Flags = {
+			_get = function(){ return Flags_; }
+			_set = function(v){ if( !hComm ) Flags_ = tonumber(v); }
+		};
+		
+		//XonLim
+		XonLim = {
+			_get = function(){ return XonLim_; }
+			_set = function(v){ if( !hComm ) XonLim_ = tonumber(v); }
+		};
+		
+		//XoffLim
+		XoffLim = {
+			_get = function(){ return XoffLim_; }
+			_set = function(v){ if( !hComm ) XoffLim_ = tonumber(v); }
+		};
+		
+		//XonChar
+		XonChar = {
+			_get = function(){ return XonChar_; }
+			_set = function(v){ if( !hComm ) XonChar_ = tonumber(v); }
+		};
+		
+		//XoffChar
+		XoffChar = {
+			_get = function(){ return XoffChar_; }
+			_set = function(v){ if( !hComm ) XoffChar_ = tonumber(v); }
+		};
+		
+		//ErrorChar
+		ErrorChar = {
+			_get = function(){ return ErrorChar_; }
+			_set = function(v){ if( !hComm ) ErrorChar_ = tonumber(v); }
+		};
+		
+		//EofChar
+		EofChar = {
+			_get = function(){ return EofChar_; }
+			_set = function(v){ if( !hComm ) EofChar_ = tonumber(v); }
+		};
+		
+		//EvtChar
+		EvtChar = {
+			_get = function(){ return EvtChar_; }
+			_set = function(v){ if( !hComm ) EvtChar_ = tonumber(v); }
+		};
+		
+		//输入缓冲区的大小
+		ReadBufSize = {
+			_get = function(){ return ReadBufSize_; }
+			_set = function(v){ if( !hComm ) ReadBufSize_ = tonumber(v); }
+		};
+		
+		//输出缓冲区的大小
+		WriteBufSize = {
+			_get = function(){ return WriteBufSize_; }
+			_set = function(v){ if( !hComm ) WriteBufSize_ = tonumber(v); }
+		};
+		
+		//读2个字符的间隔超时
+		ReadInterval = {
+			_get = function(){ return ReadInterval_; }
+			_set = function(v){ if( !hComm ) ReadInterval_ = tonumber(v); }
+		};
+		
+		//读超时系数
+		ReadTimeoutMult = {
+			_get = function(){ return ReadTimeoutMult_; }
+			_set = function(v){ if( !hComm ) ReadTimeoutMult_ = tonumber(v); }
+		};
+		
+		//读超时常数
+		ReadTimeoutConst = {
+			_get = function(){ return ReadTimeoutConst_; }
+			_set = function(v){ if( !hComm ) ReadTimeoutConst_ = tonumber(v); }
+		};
+		
+		//写超时系数
+		WriteTimeoutMult = {
+			_get = function(){ return WriteTimeoutMult_; }
+			_set = function(v){ if( !hComm ) WriteTimeoutMult_ = tonumber(v); }
+		};
+		
+		//写超时常数
+		WriteTimeoutConst = {
+			_get = function(){ return WriteTimeoutConst_; }
+			_set = function(v){ if( !hComm ) WriteTimeoutConst_ = tonumber(v); }
+		};
+		
+		//串口的等待事件
+		CommWaitEvents = {
+			_get = function(){ return CommWaitEvents_; }
+			_set = function(v){ if( !hComm ) CommWaitEvents_ = tonumber(v); }
+		};
+		
+		//接收消息的窗口句柄
+		NotifyhWnd = {
+			_get = function(){ return NotifyhWnd_; }
+			_set = function(v){ if( !hComm && IsWindow(v) ) NotifyhWnd_ = v; }
+		};
+		
+	)
+
+
+INVALID_HANDLE = topointer(0xFFFFFFFF);
+
+class DCB {
+	INT DCBlength = 0;
+	INT BaudRate = 0;
+	INT Flags = 0;		//用来设置fBinary、fParity等标志位，代替C++里的位域。
+	WORD wReserved = 0;
+	WORD XonLim = 0;
+	WORD XoffLim = 0;
+	BYTE ByteSize = 0;
+	BYTE Parity = 0;
+	BYTE StopBits = 0;
+	byte XonChar = 0;
+	byte XoffChar = 0;
+	byte ErrorChar = 0;
+	byte EofChar = 0;
+	byte EvtChar = 0;
+	WORD wReserved1 = 0;
+};
+
+class COMMTIMEOUTS {
+	INT ReadIntervalTimeout = 0;
+	INT ReadTotalTimeoutMultiplier = 0;
+	INT ReadTotalTimeoutConstant = 0;
+	INT WriteTotalTimeoutMultiplier = 0;
+	INT WriteTotalTimeoutConstant = 0;
+};
+
+//API声明
+CreateFile = ::Kernel32.api("CreateFileA","pointer(STRING lpFileName,INT dwDesiredAccess,INT dwShareMode,
+pointer lpSecurityAttributes,INT dwCreationDistribution,INT dwFlagsAndAttributes,pointer hTemplateFile)");
+SetupComm = ::Kernel32.api("SetupComm","bool(POINTER hFile,INT dwInQueue,INT dwOutQueue)");
+//GetCommTimeouts = ::Kernel32.api("GetCommTimeouts","bool(POINTER hFile,struct& lpCommTimeouts)");
+SetCommTimeouts = ::Kernel32.api("SetCommTimeouts","bool(POINTER hFile,struct lpCommTimeouts)");
+//GetCommMask = ::Kernel32.api("GetCommMask","bool(POINTER hFile,INT& lpEvtMask)");
+SetCommMask = ::Kernel32.api("SetCommMask","bool(POINTER hFile,INT lpEvtMask)");
+GetCommState = ::Kernel32.api("GetCommState","bool(POINTER hFile,struct& lpDCB)");
+SetCommState = ::Kernel32.api("SetCommState","bool(POINTER hFile,struct lpDCB)");
+//BuildCommDCB = ::Kernel32.api("BuildCommDCB","bool(STRING lpDef,struct& lpDCB)");
+PurgeComm = ::Kernel32.api("PurgeComm","bool(POINTER hFile,INT dwFlags)");
+//SetCommBreak = ::Kernel32.api("SetCommBreak","bool(POINTER hFile)");
+//ClearCommBreak = ::Kernel32.api("ClearCommBreak","bool(POINTER hFile)");
+//TransmitCommChar = ::Kernel32.api("TransmitCommChar","bool(POINTER hFile,byte cChar)");
+//ClearCommError = ::Kernel32.api("ClearCommError","bool(POINTER hFile,pointer lpErrors,struct& lpStat)");
+//GetCommModemStatus = ::Kernel32.api("GetCommModemStatus","bool(POINTER hFile,pointer lpModemStat)");
+SetThreadPriority = ::Kernel32.api("SetThreadPriority","bool(POINTER hThread,int nPriority)");
+IsWindow = ::User32.api( "IsWindow", "bool(addr hWnd)");  
+};
+
+
+
+/**intellisense()
+port = 串口通讯库
+port.SerialPort = 串口通讯类
+port.SerialPort() = 创建串口对象，默认的参数是"COM1,9600,N,8,1"
+port.SerialPort("COM1") = 用指定的串口名创建串口对象，其他参数默认
+port.SerialPort("COM1",波特率) = 用指定的串口名、波特率创建串口对象，其他参数默认\n波特率如9600
+port.SerialPort("COM1",波特率,校验) = 用指定的串口名、波特率、校验方式创建串口对象，其他参数默认\n波特率如9600\n校验方式0-4 = None,Odd,Even,Mark,Space
+port.SerialPort("COM1",波特率,校验,数据位) = 用指定的串口名、波特率、校验方式、数据位创建串口对象，其他参数默认\n波特率如9600\n校验方式0-4 = None,Odd,Even,Mark,Space\n数据位4-8
+port.SerialPort("COM1",波特率,校验,数据位,停止位) = 用指定的串口名、波特率、校验方式、数据位、停止位创建串口对象，其他参数默认\n波特率如9600\n校验方式0-4 = None,Odd,Even,Mark,Space\n数据位4-8\n停止位0,1,2 = One,OnePointFive,Two
+?port.SerialPort =  !SerialPort.
+!SerialPort.Open() = 打开串口，成功返回0，失败返回一个INT类型的错误代码\n这是类的一个方法，更多返回值请参看源码
+!SerialPort.Close() = 关闭串口\n这是类的一个方法，无返回值
+!SerialPort.Write("要发送的字符串") = 发送一个字符串\n这是类的一个方法，无返回值
+!SerialPort.WriteHex("要发送的字符串") = 发送一个字符串，该字符串两两字符表示一个字符的16进制ASCII码值，例如“41 31 24”表示“A1$”\n若字符串s中包含有非16进制的字符(0-9A-Fa-f之外的字符)，函数将自动去掉这些字符再两两组合\n这是类的一个方法，无返回值
+!SerialPort.ClearInBuffer() = 清空输入缓冲区，并中断读串口操作\n这是类的一个方法，成功返回true，失败返回false
+!SerialPort.ClearOutBuffer() = 清空输出缓冲区，并中断写串口操作\n这是类的一个方法，成功返回true，失败返回false
+!SerialPort.Handle = 串口的句柄\n这是类的一个属性，INT类型，只读
+!SerialPort.IsOpen = 串口是否打开\n这是类的一个属性，bool类型，只读
+!SerialPort.PortName = 串口名，可读写，是一个字符串如"COM1"，打开串口前设置有效\n这是类的一个属性，INT类型，可读写
+!SerialPort.BaudRate = 波特率，取值如9600，打开串口前设置有效\n这是类的一个属性，INT类型，可读写
+!SerialPort.Parity = 校验方式，取值0-4 = None,Odd,Even,Mark,Space，打开串口前设置有效\n这是类的一个属性，INT类型，可读写
+!SerialPort.DataBits = 数据位，取值4-8，打开串口前设置有效\n这是类的一个属性，BYTE类型，可读写
+!SerialPort.StopBits = 停止位，取值0,1,2 = One,OnePointFive,Two，打开串口前设置有效\n这是类的一个属性，BYTE类型，可读写
+!SerialPort.Flags = 标志位，用来设置fBinary、fParity等，打开串口前设置有效，具体含义参看DCB结构的定义\n这是类的一个属性，INT类型，可读写
+!SerialPort.XonLim = XonLim，取值如1024，打开串口前设置有效\n这是类的一个属性，WORD类型，可读写
+!SerialPort.XoffLim = XoffLim，取值如1024，打开串口前设置有效\n这是类的一个属性，WORD类型，可读写
+!SerialPort.XonChar = XonChar字符，该字符用ASCII码值表示，打开串口前设置有效\n这是类的一个属性，byte类型，可读写
+!SerialPort.XoffChar = XoffChar字符，该字符用ASCII码值表示，打开串口前设置有效\n这是类的一个属性，byte类型，可读写
+!SerialPort.ErrorChar = ErrorChar字符，该字符用ASCII码值表示，打开串口前设置有效\n这是类的一个属性，byte类型，可读写
+!SerialPort.EofChar = EofChar字符，该字符用ASCII码值表示，打开串口前设置有效\n这是类的一个属性，byte类型，可读写
+!SerialPort.EvtChar = EvtChar字符，该字符用ASCII码值表示，打开串口前设置有效\n这是类的一个属性，byte类型，可读写
+!SerialPort.ReadBufSize = 串行驱动的输入缓冲区大小，取值如2048，打开串口前设置有效\n这是类的一个属性，INT类型，可读写
+!SerialPort.WriteBufSize = 串行驱动的输出缓冲区大小，取值如2048，打开串口前设置有效\n这是类的一个属性，INT类型，可读写
+!SerialPort.ReadInterval = 读两个字符的间隔超时，取值如100，打开串口前设置有效\n这是类的一个属性，INT类型，可读写，单位ms
+!SerialPort.ReadTimeoutMult = 读超时系数，取值如1，打开串口前设置有效\n这是类的一个属性，INT类型，可读写
+!SerialPort.ReadTimeoutConst = 读超时常数，取值如500，打开串口前设置有效\n这是类的一个属性，INT类型，可读写，单位ms
+!SerialPort.WriteTimeoutMult = 写超时系数，取值如1，打开串口前设置有效\n这是类的一个属性，INT类型，可读写
+!SerialPort.WriteTimeoutConst = 写超时常数，取值如500，打开串口前设置有效\n这是类的一个属性，INT类型，可读写，单位ms
+!SerialPort.CommWaitEvents = 串口的等待事件集，打开串口前设置有效，具体含义参看API函数SetCommMask的注释\n这是类的一个属性，INT类型，可读写
+!SerialPort.NotifyhWnd = 接收串口消息的窗口句柄，打开串口前设置有效\n如果该值未指定，串口消息将发送到调用进程的主线程\n这是类的一个属性，可读写，调用者应确保其有效
+_UWM_COMM_RXCHAR=@0x8701/*_UWM_COMM_RXCHAR*/
+_UWM_COMM_RXFLAG=@0x8702/*_UWM_COMM_RXFLAG*/
+_UWM_COMM_TXEMPTY=@0x8703/*_UWM_COMM_TXEMPTY*/
+_UWM_COMM_CTS=@0x8704/*_UWM_COMM_CTS*/
+_UWM_COMM_DSR=@0x8705/*_UWM_COMM_DSR*/
+_UWM_COMM_RLSD=@0x8706/*_UWM_COMM_RLSD*/
+_UWM_COMM_BREAK=@0x8707/*_UWM_COMM_BREAK*/
+_UWM_COMM_ERR=@0x8708/*_UWM_COMM_ERR*/
+_UWM_COMM_RING=@0x8709/*_UWM_COMM_RING*/
+_UWM_COMM_RX80FULL=@0x8710/*_UWM_COMM_RX80FULL*/
+_UWM_COMM_EVENT1=@0x8711/*_UWM_COMM_EVENT1*/
+_UWM_COMM_EVENT2=@0x8712/*_UWM_COMM_EVENT2*/
+_UWM_COMM_FATALERR=@0x8901/*_UWM_COMM_FATALERR*/
+_UWM_COMM_SENDEDBYTES=@0x8801/*_UWM_COMM_SENDEDBYTES*/
+end intellisense**/

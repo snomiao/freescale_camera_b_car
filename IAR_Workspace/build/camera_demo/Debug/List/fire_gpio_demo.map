@@ -1,0 +1,803 @@
+###############################################################################
+#
+# IAR ELF Linker V8.20.1.14183/W32 for ARM                30/May/2018  15:04:49
+# Copyright 2007-2017 IAR Systems AB.
+#
+#    Output file  =  
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Exe\fire_gpio_demo.out
+#    Map file     =  
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\List\fire_gpio_demo.map
+#    Command line =  
+#        -f C:\Users\snomiao\AppData\Local\Temp\EW8D5A.tmp
+#        (C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\alloc.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\arm_cm4.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\ASCII.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\assert.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\BL144002.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\CAMERA_FUNC.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\COMMUNICATION.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\crt0.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\delay.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\diskio.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\dma.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\ff.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\FTM.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\gpio.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\src\LIB\CMSIS\iar_cortexM4l_math.a
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\IMG_FUNC.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\init.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\io.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\isr.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\LCD.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\LCD_CH.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\LED.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\lptmr.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\main.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\mcg.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\memtest.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\MENU.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\MOTOR.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\OV7725.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\PIT.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\port.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\printf.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\queue.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\SCCB.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\sdhc.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\spi.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\start.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\startup.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\stdlib.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\STEERING_GEAR.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\sysinit.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\uart.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\uif.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\vectors.o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj\wdog.o
+#        -o
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Exe\fire_gpio_demo.out
+#        --map
+#        C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\List\fire_gpio_demo.map
+#        --config
+#        "C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\..\config
+#        files\fire_ROM_K60N512.icf" --semihosting --entry __iar_program_start
+#        --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because no calls to memory allocation
+functions were found in the application outside of system library
+functions, and there are calls to deallocation functions in the
+application.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at 0x00000000 { ro section .intvec };
+"A1":  place at 0x00000410 { ro section .noinit };
+define block CodeRelocate { section .textrw_init };
+"P1":  place in [from 0x00000000 to 0x00040000] { ro, block CodeRelocate };
+define block CodeRelocateRam { section .textrw };
+define block CSTACK with size = 8K, alignment = 8 { };
+define block HEAP with size = 8K, alignment = 8 { };
+"P2":  place in [from 0x1fff0410 to 0x20010000] {
+          rw, block CodeRelocateRam, block CSTACK, block HEAP };
+initialize manually with packing = copy, complex ranges { section .data };
+initialize manually with packing = copy, complex ranges { section .textrw };
+
+  Section              Kind        Address    Size  Object
+  -------              ----        -------    ----  ------
+"A0":                                        0x410
+  .intvec              const    0x00000000   0x410  vectors.o [1]
+                              - 0x00000410   0x410
+
+"A1":                                         0x3c
+  .noinit              ro code  0x00000410    0x3c  crt0.o [1]
+                              - 0x0000044c    0x3c
+
+"P1":                                       0xa710
+  .text                ro code  0x0000044c  0x2fa8  BL144002.o [1]
+  .text                ro code  0x000033f4   0x124  gpio.o [1]
+  .text                ro code  0x00003518    0xf0  lptmr.o [1]
+  .text                ro code  0x00003608    0x20  assert.o [1]
+  .text                ro code  0x00003628   0x138  arm_cm4.o [1]
+  .text                ro code  0x00003760    0xb0  LED.o [1]
+  .text                ro code  0x00003810   0x560  printf.o [1]
+  .text                ro code  0x00003d70    0x20  delay.o [1]
+  .text                ro code  0x00003d90    0x20  stdlib.o [1]
+  .text                ro code  0x00003db0   0xca4  CAMERA_FUNC.o [1]
+  .text                ro code  0x00004a54    0x80  FltSub.o [4]
+  .text                ro code  0x00004ad4    0xe2  FltAdd.o [4]
+  .text                ro code  0x00004bb8    0x2a  FltToS32.o [4]
+  .text                ro code  0x00004be4   0x408  FTM.o [1]
+  .text                ro code  0x00004fec   0xc2c  LCD.o [1]
+  .text                ro code  0x00005c18    0x24  S32ToFlt.o [4]
+  .text                ro code  0x00005c3c    0x48  FltToDbl.o [4]
+  .text                ro code  0x00005c84   0x246  DblDiv.o [4]
+  .text                ro code  0x00005ecc    0x2e  DblCmpLe.o [4]
+  .text                ro code  0x00005efc    0x24  FltCmpLe.o [4]
+  .text                ro code  0x00005f20   0x1a2  DblMul.o [4]
+  .text                ro code  0x000060c4    0xe2  DblSub.o [4]
+  .text                ro code  0x000061a8    0x68  DblToFlt.o [4]
+  .text                ro code  0x00006210    0xd8  FltMul.o [4]
+  .text                ro code  0x000062e8    0xfc  FltDiv.o [4]
+  .text                ro code  0x000063e4    0x60  COMMUNICATION.o [1]
+  .text                ro code  0x00006444    0x24  FltCmpGe.o [4]
+  .text                ro code  0x00006468   0xa5c  IMG_FUNC.o [1]
+  .text                ro code  0x00006ec4   0x40a  SCCB.o [1]
+  .text                ro code  0x000072d0   0x178  DblAdd.o [4]
+  .text                ro code  0x00007448     0x6  ABImemclr4.o [5]
+  .text                ro code  0x00007450    0x22  S32ToDbl.o [4]
+  .text                ro code  0x00007474    0x20  DblCmpEq.o [4]
+  .text                ro code  0x00007494    0x3a  DblToS32.o [4]
+  .text                ro code  0x000074d0    0x32  ABImemset48.o [5]
+  .text                ro code  0x00007504   0x720  isr.o [1]
+  .text                ro code  0x00007c24   0x254  OV7725.o [1]
+  .text                ro code  0x00007e78   0x50c  MENU.o [1]
+  .text                ro code  0x00008384   0x248  uart.o [1]
+  .text                ro code  0x000085cc   0x33c  dma.o [1]
+  .text                ro code  0x00008908    0x86  ABImemcpy.o [5]
+  .rodata              const    0x00008990   0x600  ASCII.o [1]
+  .text                ro code  0x00008f90   0x530  start.o [1]
+  .text                ro code  0x000094c0    0x38  wdog.o [1]
+  .text                ro code  0x000094f8    0xb4  startup.o [1]
+  .text                ro code  0x000095ac    0x5c  sysinit.o [1]
+  .text                ro code  0x00009608    0x20  main.o [1]
+  Veneer               ro code  0x00009628     0x8  - Linker created -
+  .text                ro code  0x00009630   0x2f0  mcg.o [1]
+  .text                ro code  0x00009920   0x178  init.o [1]
+  .text                ro code  0x00009a98    0x70  PIT.o [1]
+  .text                ro code  0x00009b08    0x22  FltToU32.o [4]
+  .text                ro code  0x00009b2c    0xb0  STEERING_GEAR.o [1]
+  .text                ro code  0x00009bdc    0x1a  MOTOR.o [1]
+  .rodata              const    0x00009bf8   0x234  isr.o [1]
+  .data_init                    0x00009e2c   0x158  <Block>
+    Initializer bytes  const    0x00009e2c   0x158  <for .data-1>
+  .rodata              const    0x00009f84    0x80  MENU.o [1]
+  .rodata              const    0x0000a004    0x74  MENU.o [1]
+  .rodata              const    0x0000a078    0x54  lptmr.o [1]
+  .rodata              const    0x0000a0cc    0x50  dma.o [1]
+  .rodata              const    0x0000a11c    0x50  FTM.o [1]
+  .rodata              const    0x0000a16c    0x50  gpio.o [1]
+  .rodata              const    0x0000a1bc    0x4c  assert.o [1]
+  CodeRelocate                  0x0000a208    0x4c  <Block>
+    Initializer bytes  const    0x0000a208    0x4c  <for CodeRelocateRam-1>
+  .rodata              const    0x0000a254    0x48  start.o [1]
+  .rodata              const    0x0000a29c    0x40  start.o [1]
+  .text                ro code  0x0000a2dc    0x40  zero_init3.o [5]
+  .rodata              const    0x0000a31c    0x3c  arm_cm4.o [1]
+  .rodata              const    0x0000a358    0x38  arm_cm4.o [1]
+  .rodata              const    0x0000a390    0x30  vectors.o [1]
+  .rodata              const    0x0000a3c0    0x2c  start.o [1]
+  .rodata              const    0x0000a3ec    0x28  start.o [1]
+  .rodata              const    0x0000a414    0x28  start.o [1]
+  .text                ro code  0x0000a43c    0x28  data_init.o [5]
+  .rodata              const    0x0000a464    0x24  OV7725.o [1]
+  .rodata              const    0x0000a488    0x24  OV7725.o [1]
+  .text                ro code  0x0000a4ac    0x24  vectors.o [1]
+  .iar.init_table      const    0x0000a4d0    0x10  - Linker created -
+  .rodata              const    0x0000a4e0    0x20  CAMERA_FUNC.o [1]
+  .rodata              const    0x0000a500    0x20  OV7725.o [1]
+  .rodata              const    0x0000a520    0x20  start.o [1]
+  .rodata              const    0x0000a540    0x20  start.o [1]
+  .rodata              const    0x0000a560    0x20  start.o [1]
+  .rodata              const    0x0000a580    0x20  start.o [1]
+  .rodata              const    0x0000a5a0    0x20  start.o [1]
+  .text                ro code  0x0000a5c0    0x1e  cmain.o [5]
+  .text                ro code  0x0000a5de     0x4  low_level_init.o [3]
+  .text                ro code  0x0000a5e2     0x4  exit.o [3]
+  .text                ro code  0x0000a5e8     0xa  cexit.o [5]
+  .text                ro code  0x0000a5f4    0x14  exit.o [6]
+  .rodata              const    0x0000a608    0x1c  start.o [1]
+  .rodata              const    0x0000a624    0x1c  start.o [1]
+  .rodata              const    0x0000a640    0x1c  start.o [1]
+  .rodata              const    0x0000a65c    0x18  MENU.o [1]
+  .rodata              const    0x0000a674    0x18  OV7725.o [1]
+  .rodata              const    0x0000a68c    0x18  OV7725.o [1]
+  .rodata              const    0x0000a6a4    0x18  start.o [1]
+  .rodata              const    0x0000a6bc    0x18  start.o [1]
+  .rodata              const    0x0000a6d4    0x18  start.o [1]
+  .rodata              const    0x0000a6ec    0x18  start.o [1]
+  .rodata              const    0x0000a704    0x18  start.o [1]
+  .rodata              const    0x0000a71c    0x18  start.o [1]
+  .rodata              const    0x0000a734    0x18  start.o [1]
+  .rodata              const    0x0000a74c    0x18  start.o [1]
+  .rodata              const    0x0000a764    0x14  isr.o [1]
+  .rodata              const    0x0000a778    0x14  isr.o [1]
+  .rodata              const    0x0000a78c    0x14  isr.o [1]
+  .rodata              const    0x0000a7a0    0x14  OV7725.o [1]
+  .rodata              const    0x0000a7b4    0x14  start.o [1]
+  .rodata              const    0x0000a7c8    0x14  start.o [1]
+  .rodata              const    0x0000a7dc    0x14  start.o [1]
+  .rodata              const    0x0000a7f0    0x14  start.o [1]
+  .rodata              const    0x0000a804    0x14  start.o [1]
+  .rodata              const    0x0000a818    0x14  start.o [1]
+  .rodata              const    0x0000a82c    0x14  start.o [1]
+  .rodata              const    0x0000a840    0x14  start.o [1]
+  .rodata              const    0x0000a854    0x10  init.o [1]
+  .rodata              const    0x0000a864    0x10  isr.o [1]
+  .rodata              const    0x0000a874    0x10  isr.o [1]
+  .rodata              const    0x0000a884    0x10  isr.o [1]
+  .rodata              const    0x0000a894    0x10  isr.o [1]
+  .rodata              const    0x0000a8a4    0x10  isr.o [1]
+  .rodata              const    0x0000a8b4    0x10  isr.o [1]
+  .rodata              const    0x0000a8c4    0x10  isr.o [1]
+  .rodata              const    0x0000a8d4    0x10  MENU.o [1]
+  .rodata              const    0x0000a8e4    0x10  MENU.o [1]
+  .rodata              const    0x0000a8f4    0x10  MENU.o [1]
+  .rodata              const    0x0000a904    0x10  start.o [1]
+  .rodata              const    0x0000a914    0x10  start.o [1]
+  .rodata              const    0x0000a924    0x10  start.o [1]
+  .rodata              const    0x0000a934    0x10  start.o [1]
+  .rodata              const    0x0000a944    0x10  start.o [1]
+  .rodata              const    0x0000a954    0x10  start.o [1]
+  .rodata              const    0x0000a964    0x10  start.o [1]
+  .rodata              const    0x0000a974    0x10  start.o [1]
+  .rodata              const    0x0000a984    0x10  start.o [1]
+  .rodata              const    0x0000a994    0x10  start.o [1]
+  .rodata              const    0x0000a9a4    0x10  start.o [1]
+  .rodata              const    0x0000a9b4    0x10  start.o [1]
+  .rodata              const    0x0000a9c4    0x10  start.o [1]
+  .text                ro code  0x0000a9d4    0x10  io.o [1]
+  .rodata              const    0x0000a9e4     0xc  MENU.o [1]
+  .rodata              const    0x0000a9f0     0xc  MENU.o [1]
+  .rodata              const    0x0000a9fc     0xc  MENU.o [1]
+  .rodata              const    0x0000aa08     0xc  MENU.o [1]
+  .rodata              const    0x0000aa14     0xc  MENU.o [1]
+  .rodata              const    0x0000aa20     0xc  MENU.o [1]
+  .rodata              const    0x0000aa2c     0xc  start.o [1]
+  .rodata              const    0x0000aa38     0xc  start.o [1]
+  .rodata              const    0x0000aa44     0xc  start.o [1]
+  .rodata              const    0x0000aa50     0xc  start.o [1]
+  .text                ro code  0x0000aa5c     0xc  cstartup_M.o [5]
+  .rodata              const    0x0000aa68     0x8  init.o [1]
+  .rodata              const    0x0000aa70     0x8  init.o [1]
+  .rodata              const    0x0000aa78     0x8  init.o [1]
+  .rodata              const    0x0000aa80     0x8  init.o [1]
+  .rodata              const    0x0000aa88     0x8  MENU.o [1]
+  .rodata              const    0x0000aa90     0x8  MENU.o [1]
+  .rodata              const    0x0000aa98     0x8  MENU.o [1]
+  .rodata              const    0x0000aaa0     0x8  MENU.o [1]
+  .rodata              const    0x0000aaa8     0x8  MENU.o [1]
+  .rodata              const    0x0000aab0     0x8  MENU.o [1]
+  .rodata              const    0x0000aab8     0x8  MENU.o [1]
+  .rodata              const    0x0000aac0     0x8  MENU.o [1]
+  .rodata              const    0x0000aac8     0x8  MENU.o [1]
+  .rodata              const    0x0000aad0     0x8  MENU.o [1]
+  .rodata              const    0x0000aad8     0x8  MENU.o [1]
+  .rodata              const    0x0000aae0     0x8  MENU.o [1]
+  .rodata              const    0x0000aae8     0x8  start.o [1]
+  .rodata              const    0x0000aaf0     0x8  start.o [1]
+  .rodata              const    0x0000aaf8     0x8  start.o [1]
+  .rodata              const    0x0000ab00     0x8  start.o [1]
+  .rodata              const    0x0000ab08     0x8  start.o [1]
+  .rodata              const    0x0000ab10     0x8  start.o [1]
+  .rodata              const    0x0000ab18     0x8  start.o [1]
+  .rodata              const    0x0000ab20     0x8  start.o [1]
+  .rodata              const    0x0000ab28     0x8  STEERING_GEAR.o [1]
+  .rodata              const    0x0000ab30     0x4  LCD.o [1]
+  .rodata              const    0x0000ab34     0x4  LCD.o [1]
+  .rodata              const    0x0000ab38     0x4  LCD.o [1]
+  .rodata              const    0x0000ab3c     0x4  LCD.o [1]
+  .rodata              const    0x0000ab40     0x4  LCD.o [1]
+  .rodata              const    0x0000ab44     0x4  LCD.o [1]
+  .rodata              const    0x0000ab48     0x4  LCD.o [1]
+  .rodata              const    0x0000ab4c     0x4  LCD.o [1]
+  .rodata              const    0x0000ab50     0x4  MENU.o [1]
+  .rodata              const    0x0000ab54     0x4  MENU.o [1]
+  .rodata              const    0x0000ab58     0x4  MENU.o [1]
+  .rodata              const    0x0000ab5c     0x0  zero_init3.o [5]
+                              - 0x0000ab5c  0xa710
+
+"P2", part 1 of 2:                           0x1a4
+  .data                         0x1fff0410   0x158  <Block>
+    .data-1                     0x1fff0410   0x158  <Init block>
+      .data            inited   0x1fff0410     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0414     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0418     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff041c     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0420     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0424     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0428     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff042c     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0430     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0434     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0438     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff043c     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0440     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0444     0x4  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0448    0x40  CAMERA_FUNC.o [1]
+      .data            inited   0x1fff0488     0xc  FTM.o [1]
+      .data            inited   0x1fff0494    0x14  gpio.o [1]
+      .data            inited   0x1fff04a8    0x14  gpio.o [1]
+      .data            inited   0x1fff04bc     0x4  IMG_FUNC.o [1]
+      .data            inited   0x1fff04c0     0x4  init.o [1]
+      .data            inited   0x1fff04c4     0x4  init.o [1]
+      .data            inited   0x1fff04c8     0x8  mcg.o [1]
+      .data            inited   0x1fff04d0     0x8  MENU.o [1]
+      .data            inited   0x1fff04d8     0xc  MENU.o [1]
+      .data            inited   0x1fff04e4     0x4  MOTOR.o [1]
+      .data            inited   0x1fff04e8    0x64  OV7725.o [1]
+      .data            inited   0x1fff054c    0x18  uart.o [1]
+      .data            inited   0x1fff0564     0x2  main.o [1]
+      .data            inited   0x1fff0566     0x1  OV7725.o [1]
+      .data            inited   0x1fff0567     0x1  OV7725.o [1]
+  CodeRelocateRam               0x1fff0568    0x4c  <Block>
+    CodeRelocateRam-1           0x1fff0568    0x4c  <Init block>
+      .textrw          inited   0x1fff0568    0x4c  mcg.o [1]
+                              - 0x1fff05b4   0x1a4
+
+"P2", part 2 of 2:                          0x3e2c
+  .bss                          0x1fff05b4  0x3e2c  <Block>
+    .bss               zero     0x1fff05b4  0x12c0  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1874     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1878     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff187c     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1880     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1884     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1888     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff188c     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1890     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1894     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff1898     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff189c     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18a0     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18a4     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18a8     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18ac     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18b0     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18b4     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18b8     0x4  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff18bc     0x4  COMMUNICATION.o [1]
+    .bss               zero     0x1fff18c0     0x4  COMMUNICATION.o [1]
+    .bss               zero     0x1fff18c4     0x4  COMMUNICATION.o [1]
+    .bss               zero     0x1fff18c8     0x4  COMMUNICATION.o [1]
+    .bss               zero     0x1fff18cc  0x14a0  IMG_FUNC.o [1]
+    .bss               zero     0x1fff2d6c    0xe4  IMG_FUNC.o [1]
+    .bss               zero     0x1fff2e50     0x4  IMG_FUNC.o [1]
+    .bss               zero     0x1fff2e54     0x4  IMG_FUNC.o [1]
+    .bss               zero     0x1fff2e58   0x258  init.o [1]
+    .bss               zero     0x1fff30b0    0x20  init.o [1]
+    .bss               zero     0x1fff30d0    0x20  init.o [1]
+    .bss               zero     0x1fff30f0     0x4  init.o [1]
+    .bss               zero     0x1fff30f4     0x4  isr.o [1]
+    .bss               zero     0x1fff30f8     0x4  isr.o [1]
+    .bss               zero     0x1fff30fc     0x4  isr.o [1]
+    .bss               zero     0x1fff3100     0x4  isr.o [1]
+    .bss               zero     0x1fff3104  0x12c0  LCD.o [1]
+    .bss               zero     0x1fff43c4     0x4  MOTOR.o [1]
+    .bss               zero     0x1fff43c8     0x4  OV7725.o [1]
+    .bss               zero     0x1fff43cc     0x4  sysinit.o [1]
+    .bss               zero     0x1fff43d0     0x4  sysinit.o [1]
+    .bss               zero     0x1fff43d4     0x4  sysinit.o [1]
+    .bss               zero     0x1fff43d8     0x1  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff43d9     0x1  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff43da     0x1  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff43db     0x1  CAMERA_FUNC.o [1]
+    .bss               zero     0x1fff43dc     0x1  isr.o [1]
+    .bss               zero     0x1fff43dd     0x1  MENU.o [1]
+                              - 0x1fff43e0  0x3e2c
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address     Size
+          -------     ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x3e2a:
+          0x1fff05b4  0x3e2a
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module            ro code  rw code  ro data  rw data
+    ------            -------  -------  -------  -------
+C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj: [1]
+    ASCII.o                               1 536
+    BL144002.o         12 200
+    CAMERA_FUNC.o       3 236               152    4 996
+    COMMUNICATION.o        96                         16
+    FTM.o               1 032                92       12
+    IMG_FUNC.o          2 652                 4    5 520
+    LCD.o               3 116                32    4 800
+    LED.o                 176
+    MENU.o              1 292               516       21
+    MOTOR.o                26                 4        8
+    OV7725.o              596               274      106
+    PIT.o                 112
+    SCCB.o              1 034
+    STEERING_GEAR.o       176                 8
+    arm_cm4.o             312               116
+    assert.o               32                76
+    crt0.o                 60
+    delay.o                32
+    dma.o                 828                80
+    gpio.o                292               120       40
+    init.o                376                56      676
+    io.o                   16
+    isr.o               1 824               736       17
+    lptmr.o               240                84
+    main.o                 32                 2        2
+    mcg.o                 752       76       84        8
+    printf.o            1 376
+    start.o             1 328             1 176
+    startup.o             180
+    stdlib.o               32
+    sysinit.o              92                         12
+    uart.o                584                24       24
+    vectors.o              36             1 088
+    wdog.o                 56
+    ----------------------------------------------------
+    Total:             34 224       76    6 260   16 258
+
+command line: [2]
+    ----------------------------------------------------
+    Total:
+
+dl7M_tln.a: [3]
+    exit.o                  4
+    low_level_init.o        4
+    ----------------------------------------------------
+    Total:                  8
+
+m7M_tl.a: [4]
+    DblAdd.o              376
+    DblCmpEq.o             32
+    DblCmpLe.o             46
+    DblDiv.o              582
+    DblMul.o              418
+    DblSub.o              226
+    DblToFlt.o            104
+    DblToS32.o             58
+    FltAdd.o              226
+    FltCmpGe.o             36
+    FltCmpLe.o             36
+    FltDiv.o              252
+    FltMul.o              216
+    FltSub.o              128
+    FltToDbl.o             72
+    FltToS32.o             42
+    FltToU32.o             34
+    S32ToDbl.o             34
+    S32ToFlt.o             36
+    ----------------------------------------------------
+    Total:              2 954
+
+rt7M_tl.a: [5]
+    ABImemclr4.o            6
+    ABImemcpy.o           134
+    ABImemset48.o          50
+    cexit.o                10
+    cmain.o                30
+    cstartup_M.o           12
+    data_init.o            40
+    zero_init3.o           64
+    ----------------------------------------------------
+    Total:                346
+
+shb_l.a: [6]
+    exit.o                 20
+    ----------------------------------------------------
+    Total:                 20
+
+    Gaps                   28                 4
+    Linker created          8                16
+--------------------------------------------------------
+    Grand Total:       37 588       76    6 280   16 258
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                      Address    Size  Type      Object
+-----                      -------    ----  ----      ------
+.bss$$Base              0x1fff05b4           --   Gb  - Linker created -
+.bss$$Limit             0x1fff43e0           --   Gb  - Linker created -
+.data$$Base             0x1fff0410           --   Gb  - Linker created -
+.data$$Limit            0x1fff0568           --   Gb  - Linker created -
+.data_init$$Base        0x00009e2c           --   Gb  - Linker created -
+.data_init$$Limit       0x00009f84           --   Gb  - Linker created -
+.iar.init_table$$Base   0x0000a4d0           --   Gb  - Linker created -
+.iar.init_table$$Limit  0x0000a4e0           --   Gb  - Linker created -
+?main                   0x0000a5c1          Code  Gb  cmain.o [5]
+ASSERT_FAILED_STR       0x0000a1bc    0x4c  Data  Gb  assert.o [1]
+CNST_                   0x1fff0564     0x2  Data  Gb  main.o [1]
+CONTROL                 0x000048ed    0x1c  Code  Gb  CAMERA_FUNC.o [1]
+CONTROLED_MOTOR         0x0000640d    0x1e  Code  Gb  COMMUNICATION.o [1]
+CONTROLED_TURN          0x000063e5    0x1e  Code  Gb  COMMUNICATION.o [1]
+CONTROL_MOTOR           0x0000642b     0xa  Code  Gb  COMMUNICATION.o [1]
+CONTROL_TURN            0x00006403     0xa  Code  Gb  COMMUNICATION.o [1]
+CameraView              0x00004915    0x76  Code  Gb  CAMERA_FUNC.o [1]
+CodeRelocate$$Base      0x0000a208           --   Gb  - Linker created -
+CodeRelocate$$Limit     0x0000a254           --   Gb  - Linker created -
+CodeRelocateRam$$Base   0x1fff0568           --   Gb  - Linker created -
+CodeRelocateRam$$Limit  0x1fff05b4           --   Gb  - Linker created -
+DMA0_IRQHandler         0x00007531    0x16  Code  Gb  isr.o [1]
+DMA_PORTx2BUFF_Init     0x000085cd   0x300  Code  Gb  dma.o [1]
+DealedView              0x00004995    0x1e  Code  Gb  CAMERA_FUNC.o [1]
+FTM_PWM_Duty            0x00004f2d    0x6e  Code  Gb  FTM.o [1]
+FTM_PWM_init            0x00004be5   0x348  Code  Gb  FTM.o [1]
+FTMx                    0x1fff0488     0xc  Data  Gb  FTM.o [1]
+GPIOx                   0x1fff0494    0x14  Data  Gb  gpio.o [1]
+LCD_A_Point             0x000051e1   0x1ce  Code  Gb  LCD.o [1]
+LCD_Char                0x000053b1   0x312  Code  Gb  LCD.o [1]
+LCD_Clear               0x00005be5    0x1a  Code  Gb  LCD.o [1]
+LCD_DEBUG_ITER          0x00009921    0x2e  Code  Gb  init.o [1]
+LCD_DEBUG_ITER::pos     0x1fff30f0     0x4  Data  Lc  init.o [1]
+LCD_Img                 0x00005b7f    0x66  Code  Gb  LCD.o [1]
+LCD_Img_Binary          0x00005875   0x30a  Code  Gb  LCD.o [1]
+LCD_Init                0x00004fed    0x22  Code  Gb  LCD.o [1]
+LCD_NUM_POS             0x1fff0448    0x40  Data  Gb  CAMERA_FUNC.o [1]
+LCD_Num_8x16_C          0x0000573d    0xee  Code  Gb  LCD.o [1]
+LCD_Num_8x16_X          0x0000582b    0x2e  Code  Gb  LCD.o [1]
+LCD_PTLON               0x00002f3d   0x4b4  Code  Gb  BL144002.o [1]
+LCD_Rectangle           0x00005011   0x1ce  Code  Gb  LCD.o [1]
+LCD_Str_8x16            0x000056c3    0x4c  Code  Gb  LCD.o [1]
+LCD_Str_8x16_X          0x0000570f    0x2e  Code  Gb  LCD.o [1]
+LEARN                   0x000048ad    0x1e  Code  Gb  CAMERA_FUNC.o [1]
+LED_init                0x00003761    0x34  Code  Gb  LED.o [1]
+LPT_Handler             0x00007547    0x20  Code  Gb  isr.o [1]
+LPT_INT_count           0x1fff30f8     0x4  Data  Gb  isr.o [1]
+PARK                    0x00003ee9    0x6a  Code  Gb  CAMERA_FUNC.o [1]
+PIT0_IRQHandler         0x00007567    0x8a  Code  Gb  isr.o [1]
+PIT0_IRQHandler::num    0x1fff3100     0x4  Data  Lc  isr.o [1]
+PIT1_IRQHandler         0x000075f1    0x7e  Code  Gb  isr.o [1]
+PIT2_IRQHandler         0x0000766f    0x44  Code  Gb  isr.o [1]
+PORTC_IRQHandler        0x00007505    0x2c  Code  Gb  isr.o [1]
+PORTX                   0x1fff04a8    0x14  Data  Gb  gpio.o [1]
+Region$$Table$$Base     0x0000a4d0           --   Gb  - Linker created -
+Region$$Table$$Limit    0x0000a4e0           --   Gb  - Linker created -
+Reset_Handler           0x00000411          Code  Gb  crt0.o [1]
+SCCB_Ack                0x00006fe5    0x4c  Code  Lc  SCCB.o [1]
+SCCB_GPIO_init          0x00006edf    0x1c  Code  Gb  SCCB.o [1]
+SCCB_NoAck              0x00007031    0x4c  Code  Lc  SCCB.o [1]
+SCCB_ReadByte           0x00007249    0x86  Code  Gb  SCCB.o [1]
+SCCB_ReceiveByte        0x0000716f    0x84  Code  Lc  SCCB.o [1]
+SCCB_SendByte           0x00007105    0x6a  Code  Lc  SCCB.o [1]
+SCCB_Start              0x00006efb    0xaa  Code  Lc  SCCB.o [1]
+SCCB_Stop               0x00006fa5    0x40  Code  Lc  SCCB.o [1]
+SCCB_WaitAck            0x0000707d    0x88  Code  Lc  SCCB.o [1]
+SCCB_WriteByte          0x00007201    0x48  Code  Gb  SCCB.o [1]
+SCCB_delay              0x00006ec5    0x1a  Code  Lc  SCCB.o [1]
+SG_Pid_Set              0x1fff04d8     0xc  Data  Gb  MENU.o [1]
+START                   0x0000488d    0x1c  Code  Gb  CAMERA_FUNC.o [1]
+STEERO_DEBUG            0x000048d1    0x1c  Code  Gb  CAMERA_FUNC.o [1]
+UARTx                   0x1fff054c    0x18  Data  Gb  uart.o [1]
+USART4_IRQHandler       0x000076b3   0x4a4  Code  Gb  isr.o [1]
+USART4_IRQHandler::command_open
+                        0x1fff43dc     0x1  Data  Lc  isr.o [1]
+__BOOT_STACK_ADDRESS {Abs}
+                        0x2000fff8          Data  Gb  command line/config [2]
+__VECTOR_RAM {Abs}      0x1fff0000          Data  Gb  command line/config [2]
+__VECTOR_TABLE {Abs}    0x00000000          Data  Gb  command line/config [2]
+__aeabi_cdcmpeq         0x00007475          Code  Gb  DblCmpEq.o [4]
+__aeabi_cdcmple         0x00005ecd          Code  Gb  DblCmpLe.o [4]
+__aeabi_cfcmple         0x00005efd          Code  Gb  FltCmpLe.o [4]
+__aeabi_cfrcmple        0x00006445          Code  Gb  FltCmpGe.o [4]
+__aeabi_d2f             0x000061a9          Code  Gb  DblToFlt.o [4]
+__aeabi_d2iz            0x00007495          Code  Gb  DblToS32.o [4]
+__aeabi_dadd            0x000072d1          Code  Gb  DblAdd.o [4]
+__aeabi_ddiv            0x00005c85          Code  Gb  DblDiv.o [4]
+__aeabi_dmul            0x00005f21          Code  Gb  DblMul.o [4]
+__aeabi_dsub            0x000060c5          Code  Gb  DblSub.o [4]
+__aeabi_f2d             0x00005c3d          Code  Gb  FltToDbl.o [4]
+__aeabi_f2iz            0x00004bb9          Code  Gb  FltToS32.o [4]
+__aeabi_f2uiz           0x00009b09          Code  Gb  FltToU32.o [4]
+__aeabi_fadd            0x00004ad5          Code  Gb  FltAdd.o [4]
+__aeabi_fdiv            0x000062e9          Code  Gb  FltDiv.o [4]
+__aeabi_fmul            0x00006211          Code  Gb  FltMul.o [4]
+__aeabi_fsub            0x00004a55          Code  Gb  FltSub.o [4]
+__aeabi_i2d             0x00007451          Code  Gb  S32ToDbl.o [4]
+__aeabi_i2f             0x00005c19          Code  Gb  S32ToFlt.o [4]
+__aeabi_memclr4         0x00007449          Code  Gb  ABImemclr4.o [5]
+__aeabi_memcpy4         0x00008909          Code  Gb  ABImemcpy.o [5]
+__aeabi_memcpy8         0x00008909          Code  Gb  ABImemcpy.o [5]
+__cmain                 0x0000a5c1          Code  Gb  cmain.o [5]
+__code_start__ {Abs}    0x00000410          Data  Gb  command line/config [2]
+__exit                  0x0000a5f5    0x14  Code  Gb  exit.o [6]
+__iar_Memset4_word      0x000074d1          Code  Gb  ABImemset48.o [5]
+__iar_Memset8_word      0x000074d1          Code  Gb  ABImemset48.o [5]
+__iar_dadd              0x000060d5          Code  Gb  DblSub.o [4]
+__iar_data_init3        0x0000a43d    0x28  Code  Gb  data_init.o [5]
+__iar_dsub              0x000072e1          Code  Gb  DblAdd.o [4]
+__iar_dsubStart         0x000072f3          Code  Gb  DblAdd.o [4]
+__iar_fadd              0x00004a61          Code  Gb  FltSub.o [4]
+__iar_fsub              0x00004ae1          Code  Gb  FltAdd.o [4]
+__iar_fsubStart         0x00004af1          Code  Gb  FltAdd.o [4]
+__iar_program_start     0x0000aa5d          Code  Gb  cstartup_M.o [5]
+__iar_systems$$module {Abs}
+                        0x00000001          Data  Gb  command line/config [2]
+__iar_zero_init3        0x0000a2dd    0x40  Code  Gb  zero_init3.o [5]
+__low_level_init        0x0000a5df     0x4  Code  Gb  low_level_init.o [3]
+__vector_table          0x00000000   0x410  Data  Gb  vectors.o [1]
+_call_main              0x0000a5cd          Code  Gb  cmain.o [5]
+_exit                   0x0000a5e9          Code  Gb  cexit.o [5]
+_main                   0x0000a5db          Code  Gb  cmain.o [5]
+ascii_8x16              0x00008990   0x600  Data  Gb  ASCII.o [1]
+assert_failed           0x00003609    0x20  Code  Gb  assert.o [1]
+avgMid                  0x00006d75   0x132  Code  Gb  IMG_FUNC.o [1]
+bus_clk_khz             0x1fff43d4     0x4  Data  Gb  sysinit.o [1]
+carSpeed                0x1fff43c4     0x4  Data  Gb  MOTOR.o [1]
+carTurn                 0x1fff04bc     0x4  Data  Gb  IMG_FUNC.o [1]
+car_flags               0x1fff188c     0x4  Data  Gb  CAMERA_FUNC.o [1]
+car_loop                0x000047b9    0x6c  Code  Gb  CAMERA_FUNC.o [1]
+car_motion              0x0000412d   0x684  Code  Gb  CAMERA_FUNC.o [1]
+car_run_init            0x0000482d    0x60  Code  Gb  CAMERA_FUNC.o [1]
+common_startup          0x000094f9    0xb4  Code  Gb  startup.o [1]
+controled_motor         0x1fff18c4     0x4  Data  Gb  COMMUNICATION.o [1]
+controled_motor_time    0x1fff18c8     0x4  Data  Gb  COMMUNICATION.o [1]
+controled_turn          0x1fff18bc     0x4  Data  Gb  COMMUNICATION.o [1]
+controled_turn_time     0x1fff18c0     0x4  Data  Gb  COMMUNICATION.o [1]
+core_clk_khz            0x1fff43cc     0x4  Data  Gb  sysinit.o [1]
+core_clk_mhz            0x1fff43d0     0x4  Data  Gb  sysinit.o [1]
+cpu_identify            0x000090bf   0x216  Code  Gb  start.o [1]
+crossProcess            0x00006c7b     0x4  Code  Gb  IMG_FUNC.o [1]
+default_isr             0x0000a4ad    0x24  Code  Gb  vectors.o [1]
+delayms                 0x00003d71    0x1c  Code  Gb  delay.o [1]
+disable_irq             0x000036cd    0x62  Code  Gb  arm_cm4.o [1]
+enable_irq              0x0000362f    0x9e  Code  Gb  arm_cm4.o [1]
+enter_pidMenuList       0x00007e7d     0xc  Code  Gb  MENU.o [1]
+exit                    0x0000a5e3     0x4  Code  Gb  exit.o [3]
+exti_init               0x00007c25    0x54  Code  Gb  OV7725.o [1]
+filterRoadBoundary      0x0000669b    0x8e  Code  Gb  IMG_FUNC.o [1]
+findEffectiveRoad       0x00006951   0x32a  Code  Gb  IMG_FUNC.o [1]
+findMaxRoadB            0x00006729   0x10e  Code  Gb  IMG_FUNC.o [1]
+flash_identify          0x000092d5    0xc4  Code  Gb  start.o [1]
+fps_camera              0x1fff1874     0x4  Data  Gb  CAMERA_FUNC.o [1]
+fps_camera_count        0x1fff1880     0x4  Data  Gb  CAMERA_FUNC.o [1]
+fps_imgproc             0x1fff1878     0x4  Data  Gb  CAMERA_FUNC.o [1]
+fps_imgproc_count       0x1fff1884     0x4  Data  Gb  CAMERA_FUNC.o [1]
+fps_motion              0x1fff187c     0x4  Data  Gb  CAMERA_FUNC.o [1]
+fps_motion_count        0x1fff1888     0x4  Data  Gb  CAMERA_FUNC.o [1]
+func_empty              0x00007e79     0x2  Code  Gb  MENU.o [1]
+func_return             0x00007e7b     0x2  Code  Gb  MENU.o [1]
+getKey                  0x000082df    0x54  Code  Gb  MENU.o [1]
+getMiddle               0x00006c7f    0xf6  Code  Gb  IMG_FUNC.o [1]
+getRoadBoundary         0x000065cb    0xd0  Code  Gb  IMG_FUNC.o [1]
+gpio_init               0x000033f5    0xbc  Code  Gb  gpio.o [1]
+gpio_set                0x000034b1    0x5a  Code  Gb  gpio.o [1]
+ifImgError              0x00006837   0x11a  Code  Gb  IMG_FUNC.o [1]
+imageProcessing         0x00006469   0x162  Code  Gb  IMG_FUNC.o [1]
+images                  0x1fff3104  0x12c0  Data  Gb  LCD.o [1]
+img_buff                0x1fff05b4  0x12c0  Data  Gb  CAMERA_FUNC.o [1]
+img_extract             0x00003f53    0x9c  Code  Gb  CAMERA_FUNC.o [1]
+imgbuff                 0x1fff2e58   0x258  Data  Gb  init.o [1]
+keyOperation            0x1fff43dd     0x1  Data  Gb  MENU.o [1]
+lcd_initialize          0x00000529  0x2a12  Code  Gb  BL144002.o [1]
+lcd_io_init             0x0000044d    0xdc  Code  Gb  BL144002.o [1]
+led                     0x00003795    0x1e  Code  Gb  LED.o [1]
+lptmr_counter_init      0x00003519    0xa2  Code  Gb  lptmr.o [1]
+main                    0x00009609    0x20  Code  Gb  main.o [1]
+mcg_div                 0x1fff04c8     0x8  Data  Gb  mcg.o [1]
+menuChoose              0x00008137   0x120  Code  Gb  MENU.o [1]
+menuStart               0x00008035    0x1a  Code  Gb  MENU.o [1]
+middleBuff              0x1fff2d6c    0xe4  Data  Gb  IMG_FUNC.o [1]
+middlePoint             0x1fff2e50     0x4  Data  Gb  IMG_FUNC.o [1]
+motorFunc               0x1fff0410     0x4  Data  Gb  CAMERA_FUNC.o [1]
+motorPID_init           0x00009bdd    0x1a  Code  Gb  MOTOR.o [1]
+motor_idle              0x1fff0440     0x4  Data  Gb  CAMERA_FUNC.o [1]
+motor_kd                0x1fff1898     0x4  Data  Gb  CAMERA_FUNC.o [1]
+motor_ki                0x1fff042c     0x4  Data  Gb  CAMERA_FUNC.o [1]
+motor_kp                0x1fff0428     0x4  Data  Gb  CAMERA_FUNC.o [1]
+motor_max               0x1fff043c     0x4  Data  Gb  CAMERA_FUNC.o [1]
+motor_min               0x1fff0444     0x4  Data  Gb  CAMERA_FUNC.o [1]
+motor_pid               0x1fff30d0    0x20  Data  Gb  init.o [1]
+myInit                  0x00009951   0x110  Code  Gb  init.o [1]
+out_char                0x0000a9d5    0x10  Code  Gb  io.o [1]
+ov7725_eagle_cfgnum     0x1fff0567     0x1  Data  Gb  OV7725.o [1]
+ov7725_eagle_dma        0x00007d19    0x14  Code  Gb  OV7725.o [1]
+ov7725_eagle_img_buff   0x1fff43c8     0x4  Data  Gb  OV7725.o [1]
+ov7725_eagle_img_flag   0x1fff0566     0x1  Data  Gb  OV7725.o [1]
+ov7725_eagle_init       0x00007c79    0x18  Code  Gb  OV7725.o [1]
+ov7725_eagle_port_init  0x00007c91    0x4e  Code  Lc  OV7725.o [1]
+ov7725_eagle_reg        0x1fff04e8    0x64  Data  Gb  OV7725.o [1]
+ov7725_eagle_reg_init   0x00007d2d   0x102  Code  Lc  OV7725.o [1]
+ov7725_eagle_vsync      0x00007cdf    0x3a  Code  Gb  OV7725.o [1]
+pMotorPID               0x1fff04c4     0x4  Data  Gb  init.o [1]
+pSGPID                  0x1fff04c0     0x4  Data  Gb  init.o [1]
+pidMenu                 0x1fff04d0     0x8  Data  Gb  MENU.o [1]
+pidMenuList             0x0000804f    0x66  Code  Gb  MENU.o [1]
+pidMenuPrint            0x000080b5    0x82  Code  Gb  MENU.o [1]
+pit_init                0x00009a99    0x62  Code  Gb  PIT.o [1]
+pll_init                0x00009631   0x2f0  Code  Gb  mcg.o [1]
+pointNum                0x1fff2e54     0x4  Data  Gb  IMG_FUNC.o [1]
+printf                  0x00003d49    0x22  Code  Gb  printf.o [1]
+printk                  0x0000393f   0x40a  Code  Gb  printf.o [1]
+printk_mknumstr         0x00003843    0xb0  Code  Lc  printf.o [1]
+printk_pad_space        0x00003919    0x26  Code  Lc  printf.o [1]
+printk_pad_zero         0x000038f3    0x26  Code  Lc  printf.o [1]
+printk_putc             0x00003811    0x32  Code  Lc  printf.o [1]
+request_img             0x00003fef    0x1c  Code  Gb  CAMERA_FUNC.o [1]
+roadFB                  0x1fff18cc  0x14a0  Data  Gb  IMG_FUNC.o [1]
+sGManual                0x00009b4f    0x82  Code  Gb  STEERING_GEAR.o [1]
+sGPID_init              0x00009b2d    0x22  Code  Gb  STEERING_GEAR.o [1]
+setPid                  0x00008257    0x88  Code  Gb  MENU.o [1]
+set_sys_dividers        0x1fff0569    0x4c  Code  Gb  mcg.o [1]
+show_fps                0x00004027   0x104  Code  Gb  CAMERA_FUNC.o [1]
+speed_max               0x1fff0420     0x4  Data  Gb  CAMERA_FUNC.o [1]
+speed_min               0x1fff0424     0x4  Data  Gb  CAMERA_FUNC.o [1]
+ss_menu                 0x00007f4d    0xe8  Code  Gb  MENU.o [1]
+ss_menu_print           0x00007e89    0x60  Code  Gb  MENU.o [1]
+ss_menu_sel             0x00007ee9    0x64  Code  Gb  MENU.o [1]
+start                   0x00008f91   0x12e  Code  Gb  start.o [1]
+steering_gear_pid       0x1fff30b0    0x20  Data  Gb  init.o [1]
+steero_kd               0x1fff0418     0x4  Data  Gb  CAMERA_FUNC.o [1]
+steero_ki               0x1fff1890     0x4  Data  Gb  CAMERA_FUNC.o [1]
+steero_kp               0x1fff0414     0x4  Data  Gb  CAMERA_FUNC.o [1]
+steero_max              0x1fff0438     0x4  Data  Gb  CAMERA_FUNC.o [1]
+steero_middle           0x1fff0434     0x4  Data  Gb  CAMERA_FUNC.o [1]
+steero_min              0x1fff0430     0x4  Data  Gb  CAMERA_FUNC.o [1]
+steero_pid_dx           0x1fff1894     0x4  Data  Gb  CAMERA_FUNC.o [1]
+steero_pid_x            0x1fff041c     0x4  Data  Gb  CAMERA_FUNC.o [1]
+stopMark                0x1fff04e4     0x4  Data  Gb  MOTOR.o [1]
+strlen                  0x00003d91    0x20  Code  Gb  stdlib.o [1]
+sysinit                 0x000095ad    0x48  Code  Gb  sysinit.o [1]
+time_delay_ms           0x000035bb    0x32  Code  Gb  lptmr.o [1]
+time_stack              0x1fff30fc     0x4  Data  Gb  isr.o [1]
+time_stamp              0x1fff30f4     0x4  Data  Gb  isr.o [1]
+try_get_img             0x0000400b    0x1c  Code  Gb  CAMERA_FUNC.o [1]
+uart_init               0x00008385   0x1a8  Code  Gb  uart.o [1]
+uart_myGetChar          0x0000852d    0x20  Code  Gb  uart.o [1]
+uart_putchar            0x0000854d    0x1a  Code  Gb  uart.o [1]
+uart_sendN              0x00008567    0x20  Code  Gb  uart.o [1]
+water_lights            0x000037b3    0x5a  Code  Gb  LED.o [1]
+wdog_disable            0x000094c1    0x16  Code  Gb  wdog.o [1]
+wdog_unlock             0x000094d9    0x16  Code  Gb  wdog.o [1]
+write_vtor              0x00003629     0x6  Code  Gb  arm_cm4.o [1]
+x0_D                    0x00003db1    0x30  Code  Gb  CAMERA_FUNC.o [1]
+x0_D::init              0x1fff43d8     0x1  Data  Lc  CAMERA_FUNC.o [1]
+x0_D::x0                0x1fff189c     0x4  Data  Lc  CAMERA_FUNC.o [1]
+x0_I                    0x00003e71    0x1e  Code  Gb  CAMERA_FUNC.o [1]
+x0_I::sum               0x1fff18ac     0x4  Data  Lc  CAMERA_FUNC.o [1]
+x1_D                    0x00003de1    0x30  Code  Gb  CAMERA_FUNC.o [1]
+x1_D::init              0x1fff43d9     0x1  Data  Lc  CAMERA_FUNC.o [1]
+x1_D::x0                0x1fff18a0     0x4  Data  Lc  CAMERA_FUNC.o [1]
+x1_I                    0x00003e8f    0x1e  Code  Gb  CAMERA_FUNC.o [1]
+x1_I::sum               0x1fff18b0     0x4  Data  Lc  CAMERA_FUNC.o [1]
+x2_D                    0x00003e11    0x30  Code  Gb  CAMERA_FUNC.o [1]
+x2_D::init              0x1fff43da     0x1  Data  Lc  CAMERA_FUNC.o [1]
+x2_D::x0                0x1fff18a4     0x4  Data  Lc  CAMERA_FUNC.o [1]
+x2_I                    0x00003ead    0x1e  Code  Gb  CAMERA_FUNC.o [1]
+x2_I::sum               0x1fff18b4     0x4  Data  Lc  CAMERA_FUNC.o [1]
+x3_D                    0x00003e41    0x30  Code  Gb  CAMERA_FUNC.o [1]
+x3_D::init              0x1fff43db     0x1  Data  Lc  CAMERA_FUNC.o [1]
+x3_D::x0                0x1fff18a8     0x4  Data  Lc  CAMERA_FUNC.o [1]
+x3_I                    0x00003ecb    0x1e  Code  Gb  CAMERA_FUNC.o [1]
+x3_I::sum               0x1fff18b8     0x4  Data  Lc  CAMERA_FUNC.o [1]
+
+
+[1] = C:\Users\snomiao\Desktop\项目\智能车\雪星小车\freescale_camera_b_car\IAR_Workspace\build\camera_demo\Debug\Obj
+[2] = command line
+[3] = dl7M_tln.a
+[4] = m7M_tl.a
+[5] = rt7M_tl.a
+[6] = shb_l.a
+
+  37 588 bytes of readonly  code memory
+      76 bytes of readwrite code memory
+   6 280 bytes of readonly  data memory
+  16 258 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
